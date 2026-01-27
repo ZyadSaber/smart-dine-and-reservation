@@ -1,0 +1,65 @@
+"use client"
+
+import { Card, CardContent } from "@/components/ui/card"
+import { Badge } from "@/components/ui/badge"
+import { Users } from "lucide-react"
+import { cn } from "@/lib/utils"
+import { useTranslations } from "next-intl"
+
+interface Table {
+    _id: string
+    number: string
+    capacity: number
+    status: 'Available' | 'Occupied' | 'Reserved'
+}
+
+export function TableGrid({ tables }: { tables: Table[] }) {
+    const t = useTranslations("POS")
+
+    return (
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
+            {tables.map((table) => (
+                <Card
+                    key={table._id}
+                    className={cn(
+                        "relative overflow-hidden cursor-pointer transition-all hover:scale-105 active:scale-95 border-none shadow-md",
+                        table.status === 'Available' && "bg-emerald-50 dark:bg-emerald-950/20",
+                        table.status === 'Occupied' && "bg-orange-50 dark:bg-orange-950/20",
+                        table.status === 'Reserved' && "bg-blue-50 dark:bg-blue-950/20"
+                    )}
+                >
+                    <CardContent className="p-4 flex flex-col items-center justify-center min-h-[120px] gap-2">
+                        <div className="text-2xl font-black text-foreground/80">
+                            {table.number}
+                        </div>
+
+                        <div className="flex items-center gap-1 text-muted-foreground text-xs">
+                            <Users className="w-3 h-3" />
+                            <span>{table.capacity}</span>
+                        </div>
+
+                        <Badge
+                            variant="outline"
+                            className={cn(
+                                "mt-2 font-bold",
+                                table.status === 'Available' && "border-emerald-500 text-emerald-600 bg-emerald-500/10",
+                                table.status === 'Occupied' && "border-orange-500 text-orange-600 bg-orange-500/10",
+                                table.status === 'Reserved' && "border-blue-500 text-blue-600 bg-blue-500/10"
+                            )}
+                        >
+                            {t(table.status.toLowerCase())}
+                        </Badge>
+                    </CardContent>
+
+                    {/* Visual indicator bar at the bottom */}
+                    <div className={cn(
+                        "absolute bottom-0 start-0 end-0 h-1",
+                        table.status === 'Available' && "bg-emerald-500",
+                        table.status === 'Occupied' && "bg-orange-500",
+                        table.status === 'Reserved' && "bg-blue-500"
+                    )} />
+                </Card>
+            ))}
+        </div>
+    )
+}
