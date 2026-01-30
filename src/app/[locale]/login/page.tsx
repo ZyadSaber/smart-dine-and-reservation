@@ -9,11 +9,14 @@ import { UtensilsCrossed, Lock, Mail, Loader2, ArrowLeft } from "lucide-react"
 import { Link, useRouter } from "@/i18n/routing"
 import { motion } from "framer-motion"
 
+import { login } from "@/actions/user"
+import { toast } from "sonner"
+
 export default function LoginPage() {
     const t = useTranslations("Auth")
     const commonT = useTranslations("Common")
     const [loading, setLoading] = useState(false)
-    const [email, setEmail] = useState("")
+    const [username, setUsername] = useState("")
     const [password, setPassword] = useState("")
     const router = useRouter()
 
@@ -21,16 +24,21 @@ export default function LoginPage() {
         e.preventDefault()
         setLoading(true)
 
-        // Mock login for now - in a real app this would call signIn() from next-auth
-        setTimeout(() => {
-            if (email === "admin@smartdine.com" && password === "admin123") {
-                router.push("/management/dashboard")
-            } else {
-                alert(t("invalid"))
+        try {
+            const result = await login({ username, password })
+            if (result.success) {
+                toast.success("Login successful")
+                // Redirect to the first allowed page or dashboard
+                const target = result.allowedPages?.[0] || "/management/dashboard"
+                router.push(target)
             }
+        } catch (error: any) {
+            toast.error(error.message || "Login failed")
+        } finally {
             setLoading(false)
-        }, 1500)
+        }
     }
+
 
     return (
         <div className="min-h-screen bg-accent/20 flex flex-col items-center justify-center p-4">
@@ -58,13 +66,13 @@ export default function LoginPage() {
                             <div className="space-y-2">
                                 <label className="text-sm font-medium flex items-center gap-2">
                                     <Mail className="w-4 h-4 text-muted-foreground" />
-                                    {t("email")}
+                                    Username
                                 </label>
                                 <Input
-                                    type="email"
-                                    placeholder="admin@smartdine.com"
-                                    value={email}
-                                    onChange={(e) => setEmail(e.target.value)}
+                                    type="text"
+                                    placeholder="admin"
+                                    value={username}
+                                    onChange={(e) => setUsername(e.target.value)}
                                     className="h-12 rounded-xl"
                                     required
                                 />

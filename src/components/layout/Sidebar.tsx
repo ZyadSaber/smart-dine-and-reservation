@@ -1,6 +1,6 @@
 "use client"
 
-import { Link, usePathname } from "@/i18n/routing"
+import { Link, usePathname, useRouter } from "@/i18n/routing"
 import { cn } from "@/lib/utils"
 import {
     LayoutDashboard,
@@ -9,22 +9,36 @@ import {
     CalendarDays,
     BarChart3,
     Settings,
+    Users,
     LogOut
 } from "lucide-react"
 import { useTranslations } from "next-intl"
+
+import { logout } from "@/actions/user"
 
 const menuItems = [
     { icon: LayoutDashboard, label: "dashboard", href: "/management/dashboard" },
     { icon: Utensils, label: "pos", href: "/management/pos" },
     { icon: Package, label: "inventory", href: "/management/inventory" },
     { icon: CalendarDays, label: "reservations", href: "/management/reservations" },
+    { icon: Users, label: "users", href: "/management/users" },
     { icon: BarChart3, label: "reports", href: "/management/reports" },
     { icon: Settings, label: "settings", href: "/management/settings" },
 ]
 
-export function Sidebar() {
+export function Sidebar({ allowedPages }: { allowedPages?: string[] }) {
     const t = useTranslations("Common")
     const pathname = usePathname()
+    const router = useRouter()
+
+    const filteredItems = allowedPages
+        ? menuItems.filter(item => allowedPages.includes(item.href))
+        : menuItems
+
+    const handleLogout = async () => {
+        await logout()
+        router.push("/login")
+    }
 
     return (
         <aside className="hidden lg:flex h-screen w-64 flex-col bg-card border-e fixed start-0 top-0">
@@ -35,7 +49,7 @@ export function Sidebar() {
             </div>
 
             <nav className="flex-1 px-4 space-y-2">
-                {menuItems.map((item) => {
+                {filteredItems.map((item) => {
                     const Icon = item.icon
                     const isActive = pathname === item.href || (item.href !== "/" && pathname.startsWith(item.href))
 
@@ -58,7 +72,10 @@ export function Sidebar() {
             </nav>
 
             <div className="p-4 border-t">
-                <button className="flex items-center gap-3 px-3 py-2 w-full rounded-lg text-muted-foreground hover:bg-destructive/10 hover:text-destructive transition-colors">
+                <button
+                    onClick={handleLogout}
+                    className="flex items-center gap-3 px-3 py-2 w-full rounded-lg text-muted-foreground hover:bg-destructive/10 hover:text-destructive transition-colors"
+                >
                     <LogOut className="w-5 h-5" />
                     <span className="font-medium">{t("logout")}</span>
                 </button>
