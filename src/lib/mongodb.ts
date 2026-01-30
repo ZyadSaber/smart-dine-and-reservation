@@ -1,4 +1,15 @@
 import mongoose from "mongoose";
+import dns from "dns";
+
+if (typeof window === "undefined") {
+  dns.setDefaultResultOrder("ipv4first");
+  // Fix for local DNS issues with MongoDB Atlas SRV records
+  try {
+    dns.setServers(["8.8.8.8", "1.1.1.1"]);
+  } catch (e) {
+    console.warn("Failed to set DNS servers, using system defaults", e);
+  }
+}
 
 const MONGODB_URI = process.env.MONGODB_URI!;
 
@@ -42,6 +53,7 @@ async function connectDB() {
     cached.conn = await cached.promise;
   } catch (e) {
     cached.promise = null;
+    console.log(e);
     throw e;
   }
 
