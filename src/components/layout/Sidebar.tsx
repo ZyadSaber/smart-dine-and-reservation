@@ -3,6 +3,7 @@
 import { Link, usePathname, useRouter } from "@/i18n/routing"
 import { cn } from "@/lib/utils"
 import {
+    Home,
     LayoutDashboard,
     Utensils,
     Package,
@@ -13,10 +14,12 @@ import {
     LogOut
 } from "lucide-react"
 import { useTranslations } from "next-intl"
+import Image from "next/image"
 
-import { logout } from "@/actions/user"
+import { logout } from "@/services/user"
 
 const menuItems = [
+    { icon: Home, label: "home", href: "/management" },
     { icon: LayoutDashboard, label: "dashboard", href: "/management/dashboard" },
     { icon: Utensils, label: "pos", href: "/management/pos" },
     { icon: Package, label: "inventory", href: "/management/inventory" },
@@ -42,10 +45,16 @@ export function Sidebar({ allowedPages }: { allowedPages?: string[] }) {
 
     return (
         <aside className="hidden lg:flex h-screen w-64 flex-col bg-card border-e fixed start-0 top-0">
-            <div className="p-6">
-                <h1 className="text-2xl font-bold bg-linear-to-r from-primary to-primary/60 bg-clip-text text-transparent">
-                    {t("title")}
-                </h1>
+            <div className="p-6 flex justify-center">
+                <div className="relative w-48 h-32 overflow-hidden flex items-center justify-center">
+                    <Image
+                        src="/logo.png"
+                        alt="Smart Dine Logo"
+                        fill
+                        className="object-contain scale-150"
+                        priority
+                    />
+                </div>
             </div>
 
             <nav className="flex-1 px-4 space-y-2">

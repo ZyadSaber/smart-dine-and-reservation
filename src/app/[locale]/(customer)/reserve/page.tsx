@@ -16,7 +16,7 @@ import {
     ArrowRight,
     Loader2
 } from "lucide-react"
-import { createReservation } from "@/actions/reservation"
+import { createReservation } from "@/services/reservation"
 import { QRCodeSVG } from "qrcode.react"
 import { Link } from "@/i18n/routing"
 

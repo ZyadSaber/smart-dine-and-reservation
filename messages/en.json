@@ -1,6 +1,7 @@
 {
   "Common": {
     "title": "SmartDine POS",
+    "home": "Home",
     "dashboard": "Dashboard",
     "pos": "POS",
     "inventory": "Menu",
@@ -12,7 +13,10 @@
     "cancel": "Cancel",
     "delete": "Delete",
     "edit": "Edit",
-    "add": "Add"
+    "add": "Add",
+    "backToHome": "Back to Home",
+    "success": "Success",
+    "error": "Error"
   },
   "POS": {
     "tables": "Tables",
@@ -135,7 +139,7 @@
   },
   "Auth": {
     "login": "Staff Login",
-    "email": "Email Address",
+    "userName": "User Name",
     "password": "Password",
     "signIn": "Sign In",
     "unauthorized": "You are not authorized to access this page.",

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { getUsers, createUser, updateUser, deleteUser } from "@/actions/user";
+import { getUsers, createUser, updateUser, deleteUser } from "@/services/user";
 import {
     Table,
     TableBody,
@@ -26,6 +26,7 @@ import { Plus, Edit, Trash2, Lock, User as UserIcon, CheckSquare, Square } from 
 import { toast } from "sonner";
 
 const AVAILABLE_PAGES = [
+    { label: "Home", href: "/management" },
     { label: "Dashboard", href: "/management/dashboard" },
     { label: "POS", href: "/management/pos" },
     { label: "Inventory", href: "/management/inventory" },
@@ -39,7 +40,7 @@ export default function UsersPage() {
     const [users, setUsers] = useState<any[]>([]);
     const [loading, setLoading] = useState(true);
     const [isDialogOpen, setIsDialogOpen] = useState(false);
-    const [editingUser, setEditingUser] = useState<any>(null);
+    const [editingUser, setEditingUser] = useState<Record<string, any> | null>(null);
 
     const [formData, setFormData] = useState({
         username: "",
@@ -52,7 +53,7 @@ export default function UsersPage() {
         try {
             const data = await getUsers();
             setUsers(data);
-        } catch (error) {
+        } catch {
             toast.error("Failed to load users");
         } finally {
             setLoading(false);
@@ -89,7 +90,7 @@ export default function UsersPage() {
             setIsDialogOpen(false);
             resetForm();
             loadUsers();
-        } catch (error) {
+        } catch {
             toast.error("Operation failed");
         }
     };
@@ -100,7 +101,7 @@ export default function UsersPage() {
             await deleteUser(id);
             toast.success("User deleted successfully");
             loadUsers();
-        } catch (error) {
+        } catch {
             toast.error("Failed to delete user");
         }
     };
@@ -115,7 +116,7 @@ export default function UsersPage() {
         setEditingUser(null);
     };
 
-    const openEdit = (user: any) => {
+    const openEdit = (user: Record<string, any>) => {
         setEditingUser(user);
         setFormData({
             username: user.username,
