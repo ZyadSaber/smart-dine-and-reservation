@@ -1,6 +1,7 @@
 import * as jose from "jose";
 import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";
+import { UserData } from "@/types/users";
 
 const secret = new TextEncoder().encode(
   process.env.JWT_SECRET || "default_secret_please_change",
@@ -14,8 +15,8 @@ export async function comparePassword(password: string, hashed: string) {
   return await bcrypt.compare(password, hashed);
 }
 
-export async function signToken(payload: any) {
-  return await new jose.SignJWT(payload)
+export async function signToken(payload: UserData) {
+  return await new jose.SignJWT(payload as unknown as jose.JWTPayload)
     .setProtectedHeader({ alg: "HS256" })
     .setIssuedAt()
     .setExpirationTime("24h")
@@ -26,7 +27,7 @@ export async function verifyToken(token: string) {
   try {
     const { payload } = await jose.jwtVerify(token, secret);
     return payload;
-  } catch (error) {
+  } catch {
     return null;
   }
 }

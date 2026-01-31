@@ -6,8 +6,6 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import {
     ArrowRight,
     Sparkles,
-    Clock,
-    Calendar,
     LayoutDashboard,
     Utensils,
     Package,
@@ -15,11 +13,11 @@ import {
     Users,
     BarChart3,
     Settings,
-    Home
+    Home,
+    LucideIcon
 } from "lucide-react";
-import { useEffect, useState } from "react";
-
-import { LucideIcon } from "lucide-react";
+import Logo from "@/components/logo";
+import { useTranslations } from "next-intl";
 
 const ICON_MAP: Record<string, LucideIcon> = {
     "dashboard": LayoutDashboard,
@@ -46,13 +44,7 @@ interface WelcomeClientProps {
 }
 
 export default function WelcomeClient({ username, items }: WelcomeClientProps) {
-    const [currentTime, setCurrentTime] = useState(new Date());
-
-    useEffect(() => {
-        const timer = setInterval(() => setCurrentTime(new Date()), 60000);
-        return () => clearInterval(timer);
-    }, []);
-
+    const t = useTranslations("Common")
     const container = {
         hidden: { opacity: 0 },
         show: {
@@ -78,40 +70,26 @@ export default function WelcomeClient({ username, items }: WelcomeClientProps) {
                 className="flex flex-col items-center text-center mb-16"
             >
                 <div className="relative mb-6">
-                    <div className="w-24 h-24 rounded-[2rem] bg-linear-to-tr from-primary/20 to-primary/5 flex items-center justify-center border border-primary/10 shadow-inner">
-                        <span className="text-5xl animate-bounce-slow">👋</span>
-                    </div>
+                    <Logo
+                        width="w-24"
+                        height="h-24"
+                    />
                     <motion.div
                         animate={{ scale: [1, 1.2, 1], rotate: [0, 10, -10, 0] }}
                         transition={{ repeat: Infinity, duration: 4 }}
-                        className="absolute -top-2 -right-2 text-primary"
+                        className="absolute -top-2 -right-2 text-sky-300"
                     >
                         <Sparkles className="w-6 h-6" />
                     </motion.div>
                 </div>
 
                 <h1 className="text-4xl md:text-6xl font-black tracking-tight mb-4 text-balance">
-                    Welcome back, <span className="bg-linear-to-r from-primary to-rose-500 bg-clip-text text-transparent">{username}</span>!
+                    {t("welcomeBack")}, <span className="bg-linear-to-r from-primary to-rose-500 bg-clip-text text-transparent">{username}</span>!
                 </h1>
 
-                <p className="text-lg md:text-xl text-muted-foreground max-w-2xl mb-8">
+                <p className="text-lg md:text-xl text-muted-foreground max-w-2xl">
                     Your management suite is ready. Let&apos;s make today exceptional for your guests.
                 </p>
-
-                <div className="flex flex-wrap justify-center gap-4">
-                    <div className="flex items-center gap-2 px-6 py-2.5 bg-accent/30 rounded-2xl border border-primary/5 shadow-sm backdrop-blur-sm">
-                        <Calendar className="w-4 h-4 text-primary" />
-                        <span className="text-sm font-semibold">
-                            {currentTime.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' })}
-                        </span>
-                    </div>
-                    <div className="flex items-center gap-2 px-6 py-2.5 bg-accent/30 rounded-2xl border border-primary/5 shadow-sm backdrop-blur-sm">
-                        <Clock className="w-4 h-4 text-primary" />
-                        <span className="text-sm font-semibold">
-                            {currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                        </span>
-                    </div>
-                </div>
             </motion.div>
 
             {/* Quick Actions Grid */}

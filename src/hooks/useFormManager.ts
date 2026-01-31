@@ -32,7 +32,7 @@ const useFormManager = <T extends Record<string, unknown>>({
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    customValue?: unknown
+    customValue?: unknown,
   ) => {
     const { name, value, type } = e.target;
     setFormData((prev) => ({

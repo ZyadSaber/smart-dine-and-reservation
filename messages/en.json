@@ -16,7 +16,9 @@
     "add": "Add",
     "backToHome": "Back to Home",
     "success": "Success",
-    "error": "Error"
+    "error": "Error",
+    "users": "Users",
+    "welcomeBack": "Welcome Back"
   },
   "POS": {
     "tables": "Tables",
@@ -144,5 +146,17 @@
     "signIn": "Sign In",
     "unauthorized": "You are not authorized to access this page.",
     "invalid": "Invalid email or password."
+  },
+  "Errors": {
+    "notFound": {
+      "title": "404 - Page Not Found",
+      "description": "Oops! The page you are looking for doesn't exist or has been moved.",
+      "backToHome": "Return to Homepage"
+    },
+    "forbidden": {
+      "title": "Access Denied",
+      "description": "You don't have permission to access this page. Please contact your administrator if you believe this is an error.",
+      "backToHome": "Go Back Home"
+    }
   }
 }
