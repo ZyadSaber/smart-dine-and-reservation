@@ -22,22 +22,64 @@ export default async function middleware(request: NextRequest) {
   // Normalized path for comparison (ensuring it starts with / and remove trailing slash)
   const normalizedPath = cleanPathname.replace(/\/$/, "") || "/";
 
-  // 2. Get auth session
-  const auth = (await getAuthSession()) as UserData | null;
+  // 2. Get auth session (Initial verification from cookie)
+  let auth = (await getAuthSession()) as UserData | null;
 
   // 3. Logic Application
   const isManagementRoute = normalizedPath.startsWith("/management");
   const isLoginPage = normalizedPath === "/login";
 
+  let updateCookie: string | null = null;
+
+  // 4. Revalidate from Database for Management routes
+  if (isManagementRoute && auth) {
+    try {
+      // Fetch latest user data from DB via Node.js API bridge
+      const revalidateResponse = await fetch(
+        new URL("/api/auth/revalidate", request.url),
+        {
+          headers: {
+            cookie: request.headers.get("cookie") || "",
+          },
+        },
+      );
+
+      if (revalidateResponse.ok) {
+        const data = await revalidateResponse.json();
+        if (data.success && data.user) {
+          auth = data.user;
+          // Propagate new cookie if data was updated
+          updateCookie = revalidateResponse.headers.get("set-cookie");
+        }
+      } else if (
+        revalidateResponse.status === 401 ||
+        revalidateResponse.status === 404
+      ) {
+        auth = null;
+      }
+    } catch (error) {
+      console.error("Middleware revalidation fetch failed:", error);
+    }
+  }
+
+  // Helper to attach updated cookies to response
+  const withCookie = (res: NextResponse) => {
+    if (updateCookie) {
+      res.headers.set("set-cookie", updateCookie);
+    }
+    return res;
+  };
+
   // Case A: User is trying to access a Management route
   if (isManagementRoute) {
-    // 1. Must be authenticated
     if (!auth) {
       const locale = isLocale ? firstSegment : routing.defaultLocale;
-      return NextResponse.redirect(new URL(`/${locale}/login`, request.url));
+      return withCookie(
+        NextResponse.redirect(new URL(`/${locale}/login`, request.url)),
+      );
     }
 
-    // 2. Must have permission
+    // Permission check
     const allowedPages = (auth.allowedPages || []) as string[];
     const isAllowed = allowedPages.some(
       (page) =>
@@ -47,26 +89,28 @@ export default async function middleware(request: NextRequest) {
 
     if (!isAllowed) {
       const locale = isLocale ? firstSegment : routing.defaultLocale;
-      return NextResponse.rewrite(new URL(`/${locale}/forbidden`, request.url));
+      return withCookie(
+        NextResponse.rewrite(new URL(`/${locale}/forbidden`, request.url)),
+      );
     }
   }
 
   // Case B: Authenticated user tries to access login page
   if (auth && isLoginPage) {
     const locale = isLocale ? firstSegment : routing.defaultLocale;
-    // Redirect to the first allowed page or dashboard
     const allowedPages = (auth.allowedPages || []) as string[];
     const target = allowedPages.length > 0 ? allowedPages[0] : "/management";
-    return NextResponse.redirect(new URL(`/${locale}${target}`, request.url));
+    return withCookie(
+      NextResponse.redirect(new URL(`/${locale}${target}`, request.url)),
+    );
   }
 
-  // Case C: Everything else (Public routes, etc.)
-  return intlMiddleware(request);
+  // Case C: All other routes
+  return withCookie(intlMiddleware(request) as NextResponse);
 }
 
 export const config = {
   matcher: [
-    // Match all pathnames except for static files and api routes
     "/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)",
   ],
 };

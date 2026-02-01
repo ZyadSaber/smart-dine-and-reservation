@@ -15,18 +15,31 @@ export async function comparePassword(password: string, hashed: string) {
   return await bcrypt.compare(password, hashed);
 }
 
-export async function signToken(payload: UserData) {
-  return await new jose.SignJWT(payload as unknown as jose.JWTPayload)
+export async function signToken(
+  payload: UserData,
+  exp?: string | number | Date,
+) {
+  let jwt = new jose.SignJWT(payload as unknown as jose.JWTPayload)
     .setProtectedHeader({ alg: "HS256" })
-    .setIssuedAt()
-    .setExpirationTime("24h")
-    .sign(secret);
+    .setIssuedAt();
+
+  if (exp) {
+    if (typeof exp === "number") {
+      jwt = jwt.setExpirationTime(exp);
+    } else {
+      jwt = jwt.setExpirationTime(exp.toString());
+    }
+  } else {
+    jwt = jwt.setExpirationTime("24h");
+  }
+
+  return await jwt.sign(secret);
 }
 
 export async function verifyToken(token: string) {
   try {
     const { payload } = await jose.jwtVerify(token, secret);
-    return payload;
+    return payload as jose.JWTPayload & UserData;
   } catch {
     return null;
   }
