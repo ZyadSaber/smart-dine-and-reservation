@@ -14,7 +14,7 @@ const PATH_MAP: Record<string, string> = {
     "/management": "home",
     "/management/dashboard": "dashboard",
     "/management/pos": "pos",
-    "/management/inventory": "inventory",
+    "/management/menu": "menu",
     "/management/reservations": "reservations",
     "/management/users": "users",
     "/management/reports": "reports",

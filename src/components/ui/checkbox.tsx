@@ -3,7 +3,6 @@
 import * as React from "react"
 import * as CheckboxPrimitive from "@radix-ui/react-checkbox"
 import { CheckIcon } from "lucide-react"
-import { Field, FieldGroup, FieldLabel } from "@/components/ui/field"
 import { cn } from "@/lib/utils"
 
 function Checkbox({
@@ -29,6 +28,7 @@ function Checkbox({
   )
 }
 
+
 function LabeledCheckBox({
   name,
   label,
@@ -37,18 +37,19 @@ function LabeledCheckBox({
   label?: string;
 }) {
   return (
-    <FieldGroup>
-      <Field orientation="horizontal">
+    <div className="space-y-2 px-1">
+      <div className="text-sm font-medium invisible">Placeholder</div>
+      <div className="h-9 flex items-center gap-2">
         <Checkbox
           {...props}
           id={name}
           name={name}
         />
-        <FieldLabel htmlFor={name}>
+        <label htmlFor={name} className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer whitespace-nowrap">
           {label || ""}
-        </FieldLabel>
-      </Field>
-    </FieldGroup>
+        </label>
+      </div>
+    </div>
   )
 }
 

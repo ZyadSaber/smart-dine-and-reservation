@@ -5,6 +5,7 @@ export interface IOrderItem {
   name: string;
   quantity: number;
   price: number;
+  totalPrice: number;
 }
 
 export interface IOrder extends Document {
@@ -22,8 +23,9 @@ export interface IOrder extends Document {
 const OrderSchema: Schema = new Schema(
   {
     shiftId: { type: Schema.Types.ObjectId, ref: "Shift", required: true },
-    staffId: { type: Schema.Types.ObjectId, ref: "Staff", required: true },
+    staffId: { type: Schema.Types.ObjectId, ref: "User", required: true },
     tableId: { type: Schema.Types.ObjectId, ref: "Table" },
+    reservationId: { type: Schema.Types.ObjectId, ref: "Reservation" },
     items: [
       {
         itemId: {
@@ -34,10 +36,15 @@ const OrderSchema: Schema = new Schema(
         name: { type: String, required: true },
         quantity: { type: Number, required: true },
         price: { type: Number, required: true },
+        totalPrice: { type: Number, required: true },
       },
     ],
     totalAmount: { type: Number, required: true },
-    paymentMethod: { type: String, enum: ["Cash", "Visa"], default: "Cash" },
+    paymentMethod: {
+      type: String,
+      enum: ["Cash", "Card", "InstaPay", "E-wallet"],
+      default: "Cash",
+    },
     isPaid: { type: Boolean, default: false },
   },
   { timestamps: true },

@@ -15,7 +15,7 @@ export interface IShift extends Document {
 
 const ShiftSchema: Schema = new Schema(
   {
-    staffId: { type: Schema.Types.ObjectId, ref: "Staff", required: true },
+    staffId: { type: Schema.Types.ObjectId, ref: "User", required: true },
     startTime: { type: Date, default: Date.now },
     endTime: { type: Date },
     openingBalance: { type: Number, required: true },

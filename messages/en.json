@@ -4,7 +4,7 @@
     "home": "Home",
     "dashboard": "Dashboard",
     "pos": "POS",
-    "inventory": "Menu",
+    "menu": "Menu",
     "reservations": "Reservations",
     "reports": "Reports",
     "settings": "Settings",
@@ -40,13 +40,19 @@
     "difference": "Difference",
     "shiftHistory": "Shift History"
   },
-  "Inventory": {
+  "Menu": {
     "menuItems": "Menu Management",
     "itemName": "Item Name",
     "category": "Category",
     "costPrice": "Cost Price",
     "salePrice": "Sale Price",
-    "expectedProfit": "Expected Profit"
+    "expectedProfit": "Expected Profit",
+    "nameEn": "Name (English)",
+    "nameAr": "Name (Arabic)",
+    "descriptionEn": "Description (English)",
+    "descriptionAr": "Description (Arabic)",
+    "price": "Price",
+    "isAvailable": "Is Available"
   },
   "Landing": {
     "welcome": "Welcome to SmartDine",

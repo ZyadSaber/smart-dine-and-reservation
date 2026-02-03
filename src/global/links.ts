@@ -23,8 +23,8 @@ export const menuItems = [
   },
   {
     icon: Package,
-    label: "inventory",
-    href: "/management/inventory",
+    label: "menu",
+    href: "/management/menu",
     description: "Manage your menu, categories, and stock levels.",
   },
   {

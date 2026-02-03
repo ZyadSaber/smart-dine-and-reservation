@@ -1,15 +1,7 @@
 import mongoose, { Schema, Document } from "mongoose";
+import { MenuManagementItem } from "@/types/menu";
 
-export interface IMenuItem extends Document {
-  name: {
-    en: string;
-    ar: string;
-  };
-  category: string;
-  costPrice: number;
-  salePrice: number;
-  quantity: number;
-  isAvailable: boolean;
+export interface IMenuItem extends Document, Omit<MenuManagementItem, "_id"> {
   createdAt: Date;
   updatedAt: Date;
 }
@@ -20,14 +12,20 @@ const MenuItemSchema: Schema = new Schema(
       en: { type: String, required: true },
       ar: { type: String, required: true },
     },
-    category: { type: String, required: true },
-    costPrice: { type: Number, required: true },
-    salePrice: { type: Number, required: true },
-    quantity: { type: Number, default: 0 },
+    description: {
+      en: { type: String },
+      ar: { type: String },
+    },
+    category: { type: Schema.Types.ObjectId, ref: "Category", required: true },
+    price: { type: Number, required: true },
     isAvailable: { type: Boolean, default: true },
   },
   { timestamps: true },
 );
+
+if (process.env.NODE_ENV === "development") {
+  delete mongoose.models.MenuItem;
+}
 
 export default mongoose.models.MenuItem ||
   mongoose.model<IMenuItem>("MenuItem", MenuItemSchema);

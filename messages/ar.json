@@ -4,7 +4,7 @@
     "home": "الرئيسية",
     "dashboard": "لوحة القيادة",
     "pos": "نقطة البيع",
-    "inventory": "القائمة",
+    "menu": "القائمة",
     "reservations": "الحجوزات",
     "reports": "التقارير",
     "settings": "الإعدادات",
@@ -40,13 +40,19 @@
     "difference": "الفرق",
     "shiftHistory": "سجل الورديات"
   },
-  "Inventory": {
+  "Menu": {
     "menuItems": "إدارة القائمـة",
     "itemName": "اسم الصنب",
     "category": "الفئة",
     "costPrice": "سعر التكلفة",
     "salePrice": "سعر البيع",
-    "expectedProfit": "الربح المتوقع"
+    "expectedProfit": "الربح المتوقع",
+    "nameEn": "الاسم (انجليزي)",
+    "nameAr": "الاسم (عربي)",
+    "descriptionEn": "الوصف (انجليزي)",
+    "descriptionAr": "الوصف (عربي)",
+    "price": "السعر",
+    "isAvailable": "متاح"
   },
   "Landing": {
     "welcome": "أهلاً بكم في سمارت داين",

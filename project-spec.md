@@ -1,7 +1,7 @@
 Final Project Specification: SmartDine POS & Reservation System
 
 1. Core Vision
-   A comprehensive restaurant management system that bridges Pre-booking with Real-time Point of Sale (POS). It tracks inventory, calculates profits, manages staff shifts (Wardia), and supports multi-platform responsiveness (Mobile/Tablet/Desktop).
+   A comprehensive restaurant management system that bridges Pre-booking with Real-time Point of Sale (POS). calculates profits, manages staff shifts (Wardia), and supports multi-platform responsiveness (Mobile/Tablet/Desktop).
 
 2. Technical Stack
    Framework: Next.js 14+ (App Router).
@@ -29,7 +29,7 @@ System Feature: Each User is linked to a Staff record containing their name and 
 
 Shift (الوردية): staffId, startTime, endTime, openingBalance, totalCashSales, totalVisaSales, status (Open/Closed).
 
-B. Menu & Inventory
+B. Menu
 MenuItem: Name (AR/EN), Category, costPrice, salePrice, quantity (Stock), isAvailable.
 
 Logic: Alert if quantity < 5. Total profit per item = (salePrice - costPrice) \* quantity.
@@ -59,8 +59,6 @@ Closing Report: Compares "Expected Cash" vs. "Actual Cash" entered by the staff.
 
 📈 Reports & Analytics (Admin Only)
 Stock Valuation: Total value of current stock based on cost price.
-
-Expected Profit: Calculation of potential profit from current inventory.
 
 Shift History: Ability to review any past shift and who was responsible.
 

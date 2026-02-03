@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { ZodSchema } from "zod";
+import updateDeep from "@/lib/updateDeep";
 
 interface UseFormManagerProps<T> {
   initialData: T;
@@ -35,10 +36,18 @@ const useFormManager = <T extends Record<string, unknown>>({
     customValue?: unknown,
   ) => {
     const { name, value, type } = e.target;
-    setFormData((prev) => ({
-      ...prev,
-      [name]: customValue || type === "number" ? +value : value,
-    }));
+    const finalValue = customValue || type === "number" ? +value : value;
+
+    setFormData((prev) => {
+      if (name.includes(".")) {
+        return updateDeep(prev, name.split("."), finalValue) as T;
+      }
+
+      return {
+        ...prev,
+        [name]: finalValue,
+      };
+    });
 
     // Optional: Clear error for this field as the user types
     if (errors[name]) {
@@ -51,7 +60,7 @@ const useFormManager = <T extends Record<string, unknown>>({
     setErrors({});
   };
 
-  const handleToggle = (name: string) => (value: boolean) => {
+  const handleToggle = (name: string) => (value: boolean | string) => {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -62,7 +71,12 @@ const useFormManager = <T extends Record<string, unknown>>({
     name: string;
     value: unknown;
   }) => {
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData((prev) => {
+      if (name.includes(".")) {
+        return updateDeep(prev, name.split("."), value) as T;
+      }
+      return { ...prev, [name]: value };
+    });
   };
 
   const handleChangeMultiInputs = (data: Record<string, unknown>) => {

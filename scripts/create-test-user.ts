@@ -36,7 +36,7 @@ async function createTestUser() {
     const allowedPages = [
       "/management/dashboard",
       "/management/pos",
-      "/management/inventory",
+      "/management/menu",
       "/management/reservations",
       "/management/users",
       "/management/reports",

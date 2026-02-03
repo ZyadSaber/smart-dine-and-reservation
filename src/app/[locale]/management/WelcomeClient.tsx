@@ -22,7 +22,7 @@ import { useTranslations } from "next-intl";
 const ICON_MAP: Record<string, LucideIcon> = {
     "dashboard": LayoutDashboard,
     "pos": Utensils,
-    "inventory": Package,
+    "menu": Package,
     "reservations": CalendarDays,
     "users": Users,
     "reports": BarChart3,
