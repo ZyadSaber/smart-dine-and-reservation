@@ -19,6 +19,7 @@ const PATH_MAP: Record<string, string> = {
     "/management/users": "users",
     "/management/reports": "reports",
     "/management/settings": "settings",
+    "/management/tables": "tables",
 };
 
 export function Shell({ children }: { children: React.ReactNode, allowedPages?: string[] }) {

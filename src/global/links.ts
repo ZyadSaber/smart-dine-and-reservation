@@ -6,6 +6,7 @@ import {
   Users,
   BarChart3,
   Settings,
+  Grid2X2,
 } from "lucide-react";
 
 export const menuItems = [
@@ -38,6 +39,12 @@ export const menuItems = [
     label: "users",
     href: "/management/users",
     description: "Manage staff accounts, roles, and system access.",
+  },
+  {
+    icon: Grid2X2,
+    label: "tables",
+    href: "/management/tables",
+    description: "Manage restaurant seating and table arrangements.",
   },
   {
     icon: BarChart3,
