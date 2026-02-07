@@ -164,6 +164,11 @@
       "title": "Access Denied",
       "description": "You don't have permission to access this page. Please contact your administrator if you believe this is an error.",
       "backToHome": "Go Back Home"
+    },
+    "applicationError": {
+      "title": "Something went wrong!",
+      "description": "We've encountered an unexpected error. Please try again or return home.",
+      "retry": "Try Again"
     }
   }
 }

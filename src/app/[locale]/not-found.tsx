@@ -1,14 +1,16 @@
-import ErrorLayout from "@/components/ErrorLayout";
-import { SearchX } from "lucide-react";
-import { getTranslations } from "next-intl/server";
+"use client";
 
-export default async function NotFound() {
-    const t = await getTranslations("Errors.notFound");
+import { FileQuestion } from "lucide-react";
+import ErrorLayout from "@/components/ErrorLayout";
+import { useTranslations } from "next-intl";
+
+export default function NotFound() {
+    const t = useTranslations("Errors.notFound");
 
     return (
         <ErrorLayout
             code="404"
-            icon={<SearchX size={120} strokeWidth={1.5} />}
+            icon={<FileQuestion className="w-full h-full" />}
             title={t("title")}
             description={t("description")}
             backText={t("backToHome")}

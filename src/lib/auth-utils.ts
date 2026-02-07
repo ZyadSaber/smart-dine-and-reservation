@@ -3,6 +3,10 @@ import bcrypt from "bcryptjs";
 import { cookies } from "next/headers";
 import { UserData } from "@/types/users";
 
+if (!process.env.JWT_SECRET && process.env.NODE_ENV === "production") {
+  throw new Error("JWT_SECRET must be set in production");
+}
+
 const secret = new TextEncoder().encode(
   process.env.JWT_SECRET || "default_secret_please_change",
 );

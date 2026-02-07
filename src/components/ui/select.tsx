@@ -199,7 +199,7 @@ export function SelectField<T extends { key: string; label: string }>({
 }: {
   label: string;
   options: T[];
-  value: string;
+  value?: string;
   onValueChange: (value: string) => void;
   name: string;
   disabled?: boolean;

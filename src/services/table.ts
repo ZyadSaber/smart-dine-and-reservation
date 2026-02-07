@@ -3,13 +3,9 @@
 import connectDB from "@/lib/mongodb";
 import Table from "@/models/Table";
 import { revalidatePath } from "next/cache";
-import { getAuthSession } from "@/lib/auth-utils";
 import { TableData } from "@/types/table";
 
 export async function getTables() {
-  const session = await getAuthSession();
-  if (!session) return null;
-
   try {
     await connectDB();
     const tables = await Table.find({}).sort({ number: 1 });

@@ -33,7 +33,7 @@ const AddOrEditUser = ({ currentUser }: AddOrEditUserProps) => {
 
     const editingUser = !!currentUser;
 
-    const { formData, handleChange, handleFieldChange, resetForm } = useFormManager({
+    const { formData, handleChange, handleFieldChange, resetForm, validate } = useFormManager({
         initialData: {
             username: "",
             password: "",
@@ -46,6 +46,7 @@ const AddOrEditUser = ({ currentUser }: AddOrEditUserProps) => {
     })
 
     const handleSubmit = () => {
+        if (!validate()) return
         startTransition(async () => {
             const _fn = editingUser ? updateUser : createUser;
             const result = await _fn(formData);

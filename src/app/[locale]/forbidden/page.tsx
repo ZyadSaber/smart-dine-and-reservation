@@ -1,14 +1,16 @@
+"use client";
+
 import ErrorLayout from "@/components/ErrorLayout";
 import { ShieldAlert } from "lucide-react";
-import { getTranslations } from "next-intl/server";
+import { useTranslations } from "next-intl";
 
-export default async function ForbiddenPage() {
-    const t = await getTranslations("Errors.forbidden");
+export default function ForbiddenPage() {
+    const t = useTranslations("Errors.forbidden");
 
     return (
         <ErrorLayout
             code="403"
-            icon={<ShieldAlert size={120} strokeWidth={1.5} />}
+            icon={<ShieldAlert className="w-full h-full" />}
             title={t("title")}
             description={t("description")}
             backText={t("backToHome")}

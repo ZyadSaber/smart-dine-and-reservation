@@ -9,9 +9,6 @@ import { MenuItemInput, CategoryInput } from "@/validations/menu";
 import { MenuManagementItem, CategoryItem } from "@/types/menu";
 
 export async function getItems() {
-  const session = await getAuthSession();
-  if (!session) return null;
-
   await new Promise((resolve) => setTimeout(resolve, 500));
 
   try {
@@ -85,9 +82,6 @@ export async function deleteItem(id: string) {
 import { getLocale } from "next-intl/server";
 
 export async function getCategories() {
-  const session = await getAuthSession();
-  if (!session) return { categories: [], categoriesList: [] };
-
   try {
     const locale = await getLocale();
     await connectDB();
