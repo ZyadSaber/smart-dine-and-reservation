@@ -1,4 +1,5 @@
 import mongoose, { Schema, Document } from "mongoose";
+import getModel from "./getModal";
 
 export interface IOrderItem {
   itemId: mongoose.Types.ObjectId;
@@ -50,5 +51,4 @@ const OrderSchema: Schema = new Schema(
   { timestamps: true },
 );
 
-export default mongoose.models.Order ||
-  mongoose.model<IOrder>("Order", OrderSchema);
+export default getModel<IOrder>("Order", OrderSchema);

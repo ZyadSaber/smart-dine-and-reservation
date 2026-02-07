@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect, useMemo, useTransition } from "react"
+import { useEffect, useMemo, useTransition } from "react"
 import { useTranslations } from "next-intl"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -38,7 +38,19 @@ import isObjectHasData from "@/lib/isObjectHasData"
 export default function ReservePage() {
     const t = useTranslations("Reservation")
     const [loading, startTransition] = useTransition();
-    const [menuItems, setMenuItems] = useState<MenuManagementItem[]>([])
+
+    const {
+        formData: {
+            tables,
+            menuItems
+        },
+        handleFieldChange: dataHandleFieldChange
+    } = useFormManager({
+        initialData: {
+            tables: [] as TableData[],
+            menuItems: [] as MenuManagementItem[]
+        }
+    })
 
     const {
         formData,
@@ -61,32 +73,31 @@ export default function ReservePage() {
             menuItems: [] as { itemId: string; quantity: number }[],
             step: 1,
             successData: null,
-            tables: [] as TableData[]
         },
         schema: reservationSchema
     })
 
     useEffect(() => {
-        const fetchData = async () => {
+        startTransition(async () => {
             try {
                 const [tablesRes, itemsRes] = await Promise.all([
                     getTables(),
                     getItems()
                 ])
-                if (tablesRes) handleFieldChange({ name: "tables", value: tablesRes })
-                if (itemsRes) setMenuItems(itemsRes)
+                if (tablesRes) dataHandleFieldChange({ name: "tables", value: tablesRes })
+                if (itemsRes) dataHandleFieldChange({ name: "menuItems", value: itemsRes })
             } catch (error) {
                 console.error("Failed to fetch data", error)
             }
-        }
-        fetchData()
-    }, [handleFieldChange])
+        })
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [])
 
     const tableOptions = useMemo(() =>
-        (formData.tables as TableData[] || []).map(table => ({
+        (tables as TableData[] || []).map(table => ({
             key: table._id!,
             label: `Table ${table.number} (Capacity: ${table.capacity})`
-        })), [formData.tables])
+        })), [tables])
 
     const handleMenuItemChange = (itemId: string, delta: number) => {
         const currentItems = [...(formData.menuItems || [])]
@@ -396,7 +407,7 @@ export default function ReservePage() {
                                     {formData.tableId && (
                                         <div className="flex justify-between items-center text-sm pt-2 border-t border-white/5">
                                             <span className="text-muted-foreground">Chosen Table</span>
-                                            <span className="font-black text-primary"># {(formData.tables as TableData[] || []).find(t => t._id === formData.tableId)?.number}</span>
+                                            <span className="font-black text-primary"># {(tables as TableData[] || []).find(t => t._id === formData.tableId)?.number}</span>
                                         </div>
                                     )}
                                     {formData.menuItems && formData.menuItems.length > 0 && (

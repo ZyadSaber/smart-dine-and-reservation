@@ -1,4 +1,5 @@
-import mongoose, { Schema, Document } from "mongoose";
+import { Schema, Document } from "mongoose";
+import getModel from "./getModal";
 
 export interface ICategory extends Document {
   name: {
@@ -19,5 +20,4 @@ const CategorySchema: Schema = new Schema(
   { timestamps: true },
 );
 
-export default mongoose.models.Category ||
-  mongoose.model<ICategory>("Category", CategorySchema);
+export default getModel<ICategory>("Category", CategorySchema);

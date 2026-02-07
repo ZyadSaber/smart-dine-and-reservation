@@ -1,4 +1,5 @@
 import mongoose, { Schema, Document } from "mongoose";
+import getModel from "./getModal";
 
 export interface IReservation extends Document {
   customerName: string;
@@ -52,5 +53,4 @@ if (process.env.NODE_ENV === "development") {
   delete mongoose.models.Reservation;
 }
 
-export default mongoose.models.Reservation ||
-  mongoose.model<IReservation>("Reservation", ReservationSchema);
+export default getModel<IReservation>("Reservation", ReservationSchema);

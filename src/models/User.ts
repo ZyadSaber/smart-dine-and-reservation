@@ -1,5 +1,6 @@
 import mongoose, { Schema, Document } from "mongoose";
 import { UserData } from "@/types/users";
+import getModel from "./getModal";
 
 export interface IUser extends Document, Omit<UserData, "_id"> {
   password: string;
@@ -24,5 +25,4 @@ if (process.env.NODE_ENV === "development") {
   delete mongoose.models.User;
 }
 
-export default mongoose.models.User ||
-  mongoose.model<IUser>("User", UserSchema);
+export default getModel<IUser>("User", UserSchema);

@@ -42,7 +42,7 @@ export async function createReservation(data: {
     ...data,
     tableId: assignedTableId,
     endTime: endTimeStr,
-    status: "Confirmed",
+    status: "Pending",
   });
 
   revalidatePath("/pos");

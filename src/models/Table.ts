@@ -1,4 +1,5 @@
-import mongoose, { Schema, Document } from "mongoose";
+import { Schema, Document } from "mongoose";
+import getModel from "./getModal";
 
 export interface ITable extends Document {
   number: string;
@@ -21,5 +22,4 @@ const TableSchema: Schema = new Schema(
   { timestamps: true },
 );
 
-export default mongoose.models.Table ||
-  mongoose.model<ITable>("Table", TableSchema);
+export default getModel<ITable>("Table", TableSchema);

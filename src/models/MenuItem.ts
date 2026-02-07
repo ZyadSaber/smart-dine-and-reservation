@@ -1,5 +1,6 @@
 import mongoose, { Schema, Document } from "mongoose";
 import { MenuManagementItem } from "@/types/menu";
+import getModel from "./getModal";
 
 export interface IMenuItem extends Document, Omit<MenuManagementItem, "_id"> {
   createdAt: Date;
@@ -27,5 +28,4 @@ if (process.env.NODE_ENV === "development") {
   delete mongoose.models.MenuItem;
 }
 
-export default mongoose.models.MenuItem ||
-  mongoose.model<IMenuItem>("MenuItem", MenuItemSchema);
+export default getModel<IMenuItem>("MenuItem", MenuItemSchema);

@@ -28,18 +28,6 @@ export const reservationSchema = z.object({
     .optional(),
   step: z.number().default(1).optional(),
   successData: z.any().optional(),
-  tables: z
-    .array(
-      z.object({
-        _id: z.string().optional(),
-        number: z.string(),
-        capacity: z.number(),
-        status: z.enum(["Available", "Occupied", "Reserved"]),
-        createdAt: z.string().optional(),
-        updatedAt: z.string().optional(),
-      }),
-    )
-    .optional(),
 });
 
 export type ReservationInput = z.infer<typeof reservationSchema>;

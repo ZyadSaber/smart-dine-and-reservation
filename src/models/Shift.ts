@@ -1,4 +1,5 @@
 import mongoose, { Schema, Document } from "mongoose";
+import getModel from "./getModal";
 
 export interface IShift extends Document {
   staffId: mongoose.Types.ObjectId;
@@ -27,5 +28,4 @@ const ShiftSchema: Schema = new Schema(
   { timestamps: true },
 );
 
-export default mongoose.models.Shift ||
-  mongoose.model<IShift>("Shift", ShiftSchema);
+export default getModel<IShift>("Shift", ShiftSchema);
