@@ -33,7 +33,7 @@ const AddOrEditUser = ({ currentUser }: AddOrEditUserProps) => {
 
     const editingUser = !!currentUser;
 
-    const { formData, handleChange, handleFieldChange, resetForm, validate } = useFormManager({
+    const { formData, handleChange, handleFieldChange, resetForm, validate, errors } = useFormManager({
         initialData: {
             username: "",
             password: "",
@@ -44,6 +44,8 @@ const AddOrEditUser = ({ currentUser }: AddOrEditUserProps) => {
         },
         schema: !!editingUser ? userSchema : createUserSchema
     })
+
+    console.log(errors);
 
     const handleSubmit = () => {
         if (!validate()) return
@@ -98,6 +100,7 @@ const AddOrEditUser = ({ currentUser }: AddOrEditUserProps) => {
                             onChange={handleChange}
                             name="fullName"
                             required
+                            error={errors?.fullName}
                         />
                     </div>
                 </div>
@@ -112,6 +115,7 @@ const AddOrEditUser = ({ currentUser }: AddOrEditUserProps) => {
                             onChange={handleChange}
                             name="username"
                             required
+                            error={errors?.username}
                         />
                     </div>
                 </div>
@@ -129,6 +133,7 @@ const AddOrEditUser = ({ currentUser }: AddOrEditUserProps) => {
                             value={formData.password}
                             onChange={handleChange}
                             required={!editingUser}
+                            error={errors?.password}
                         />
                     </div>
                 </div>
@@ -143,6 +148,7 @@ const AddOrEditUser = ({ currentUser }: AddOrEditUserProps) => {
                         { key: "admin", label: "Admin" },
                         { key: "manager", label: "Manager" },
                     ]}
+                    error={errors?.role}
                 />
 
                 <div className="space-y-2">
@@ -161,7 +167,7 @@ const AddOrEditUser = ({ currentUser }: AddOrEditUserProps) => {
                 </div>
 
                 <DialogFooter className="pt-4">
-                    <Button onClick={handleSubmit} className="w-full" isLoading={isPending}>
+                    <Button onClick={handleSubmit} className="w-full" disabled={isPending}>
                         {editingUser ? "Update User" : "Create User"}
                     </Button>
                 </DialogFooter>

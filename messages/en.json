@@ -19,7 +19,9 @@
     "error": "Error",
     "users": "Users",
     "tables": "Tables",
-    "welcomeBack": "Welcome Back"
+    "welcomeBack": "Welcome Back",
+    "shifts": "Shifts",
+    "notes": "Notes"
   },
   "POS": {
     "tables": "Tables",
@@ -30,16 +32,39 @@
     "checkout": "Checkout",
     "cash": "Cash",
     "visa": "Visa",
-    "total": "Total"
+    "total": "Total",
+    "openShiftFirst": "Open Shift First",
+    "paymentMethod": "Payment Method",
+    "totalAmount": "Total Amount",
+    "instapay": "InstaPay",
+    "e-wallet": "E-wallet",
+    "card": "Card"
   },
   "Shift": {
+    "title": "Shift Management",
+    "description": "Monitor and manage staff shifts and register balances.",
     "openShift": "Open Shift",
     "closeShift": "Close Shift",
     "openingBalance": "Opening Balance",
     "expectedCash": "Expected Cash",
     "actualCash": "Actual Cash",
     "difference": "Difference",
-    "shiftHistory": "Shift History"
+    "shiftHistory": "Shift History",
+    "staff": "Staff",
+    "startTime": "Start Time",
+    "endTime": "End Time",
+    "totalSales": "Total Sales",
+    "status": "Status",
+    "noShifts": "No shifts found.",
+    "editShift": "Edit Shift",
+    "openNewShift": "Open New Shift",
+    "updateSuccess": "Shift updated successfully",
+    "openSuccess": "Shift opened successfully",
+    "openError": "Failed to open shift",
+    "closeSuccess": "Shift closed successfully",
+    "selectShiftError": "Please select a shift to close",
+    "staffMember": "Staff Member",
+    "actualCashAtClose": "Actual Cash at Close"
   },
   "Menu": {
     "menuItems": "Menu Management",
@@ -76,7 +101,8 @@
     "success": "Reservation Successful!",
     "barcodeInstruction": "Please show this QR code upon arrival.",
     "backToHome": "Back to Home",
-    "confirm": "Confirm Reservation"
+    "confirm": "Confirm Reservation",
+    "guests": "Guests"
   },
   "About": {
     "title": "Our Story",
@@ -169,6 +195,9 @@
       "title": "Something went wrong!",
       "description": "We've encountered an unexpected error. Please try again or return home.",
       "retry": "Try Again"
-    }
+    },
+    "goHome": "Go Back Home",
+    "errorDetails": "Error Details",
+    "retry": "Try Again"
   }
 }

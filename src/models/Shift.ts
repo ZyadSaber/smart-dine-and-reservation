@@ -7,7 +7,8 @@ export interface IShift extends Document {
   endTime?: Date;
   openingBalance: number;
   totalCashSales: number;
-  totalVisaSales: number;
+  totalCardSales: number;
+  totalDigitalSales: number;
   actualCashAtClose?: number;
   status: "Open" | "Closed";
   createdAt: Date;
@@ -21,11 +22,15 @@ const ShiftSchema: Schema = new Schema(
     endTime: { type: Date },
     openingBalance: { type: Number, required: true },
     totalCashSales: { type: Number, default: 0 },
-    totalVisaSales: { type: Number, default: 0 },
+    totalCardSales: { type: Number, default: 0 },
+    totalDigitalSales: { type: Number, default: 0 },
     actualCashAtClose: { type: Number },
     status: { type: String, enum: ["Open", "Closed"], default: "Open" },
   },
   { timestamps: true },
 );
+
+ShiftSchema.index({ staffId: 1, status: 1 });
+ShiftSchema.index({ createdAt: -1 });
 
 export default getModel<IShift>("Shift", ShiftSchema);

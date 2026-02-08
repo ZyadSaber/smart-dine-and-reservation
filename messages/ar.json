@@ -18,7 +18,9 @@
     "success": "تم بنجاح",
     "error": "حدث خطأ",
     "users": "المستخدمين",
-    "welcomeBack": "مرحبا بعودتك"
+    "welcomeBack": "مرحبا بعودتك",
+    "shifts": "الورديات",
+    "notes": "ملاحظات"
   },
   "POS": {
     "tables": "الطاولات",
@@ -29,16 +31,39 @@
     "checkout": "الدفع",
     "cash": "نقدي",
     "visa": "فيزا",
-    "total": "الإجمالي"
+    "total": "الإجمالي",
+    "openShiftFirst": "افتح وردية أولاً",
+    "paymentMethod": "وسيلى الدفع",
+    "totalAmount": "الاجمالي",
+    "instapay": "InstaPay",
+    "e-wallet": "محفظة الكترونية",
+    "card": "بطاقة"
   },
   "Shift": {
+    "title": "إدارة الورديات",
+    "description": "مراقبة وإدارة ورديات الموظفين وأرصدة الصندوق.",
     "openShift": "فتح وردية",
     "closeShift": "إغلاق وردية",
     "openingBalance": "رصيد الافتتاح",
     "expectedCash": "النقد المتوقع",
     "actualCash": "النقد الفعلي",
     "difference": "الفرق",
-    "shiftHistory": "سجل الورديات"
+    "shiftHistory": "سجل الورديات",
+    "staff": "الموظف",
+    "startTime": "وقت البدء",
+    "endTime": "وقت الانتهاء",
+    "totalSales": "إجمالي المبيعات",
+    "status": "الحالة",
+    "noShifts": "لا توجد ورديات.",
+    "editShift": "تعديل وردية",
+    "openNewShift": "فتح وردية جديدة",
+    "updateSuccess": "تم تحديث الوردية بنجاح",
+    "openSuccess": "تم فتح الوردية بنجاح",
+    "openError": "فشل في فتح الوردية",
+    "closeSuccess": "تم إغلاق الوردية بنجاح",
+    "selectShiftError": "يرجى اختيار وردية للإغلاق",
+    "staffMember": "الموظف",
+    "actualCashAtClose": "النقد الفعلي عند الإغلاق"
   },
   "Menu": {
     "menuItems": "إدارة القائمـة",
@@ -75,7 +100,8 @@
     "success": "تم الحجز بنجاح!",
     "barcodeInstruction": "يرجى إبراز هذا الرمز عند الوصول.",
     "backToHome": "العودة للرئيسية",
-    "confirm": "تأكيد الحجز"
+    "confirm": "تأكيد الحجز",
+    "guests": "شخص"
   },
   "About": {
     "title": "قصتنا",
@@ -168,6 +194,9 @@
       "title": "حدث خطأ ما!",
       "description": "لقد واجهنا خطأ غير متوقع. يرجى المحاولة مرة أخرى أو العودة إلى الصفحة الرئيسية.",
       "retry": "إعادة المحاولة"
-    }
+    },
+    "goHome": "العودة للرئيسية",
+    "errorDetails": "تفاصيل الخطأ",
+    "retry": "إعادة المحاولة"
   }
 }

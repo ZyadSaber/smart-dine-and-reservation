@@ -195,7 +195,7 @@ export function SelectField<T extends { key: string; label: string }>({
   extraSearchParam = [],
   preSelectFirstKey = false,
   placeholder,
-  renderAddField
+  renderAddField,
 }: {
   label: string;
   options: T[];

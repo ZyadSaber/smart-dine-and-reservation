@@ -24,7 +24,7 @@ export default function LoginPage() {
     const { formData, handleChange, validate, errors } = useFormManager({
         initialData: {
             username: "",
-            password: ""
+            password: "",
         },
         schema: loginSchema,
     })
@@ -38,6 +38,8 @@ export default function LoginPage() {
                     toast.success(commonT("success"))
                     const target = "/management"
                     router.push(target)
+                } else {
+                    toast.error(result.error)
                 }
             } catch (error: unknown) {
                 const message = error instanceof Error ? error.message : "Login failed"

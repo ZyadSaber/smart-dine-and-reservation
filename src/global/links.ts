@@ -58,6 +58,12 @@ export const menuItems = [
     href: "/management/settings",
     description: "Configure your restaurant's profile and preferences.",
   },
+  {
+    icon: CalendarDays,
+    label: "shifts",
+    href: "/management/shifts",
+    description: "Monitor and manage staff shifts and register balances.",
+  },
 ];
 
 export const availablePages = [

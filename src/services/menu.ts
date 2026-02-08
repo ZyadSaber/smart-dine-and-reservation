@@ -9,14 +9,24 @@ import { MenuItemInput, CategoryInput } from "@/validations/menu";
 import { MenuManagementItem, CategoryItem } from "@/types/menu";
 
 export async function getItems() {
-  await new Promise((resolve) => setTimeout(resolve, 500));
-
   try {
     await connectDB();
     const rawItems = await MenuItem.find().populate("category").lean();
     return JSON.parse(JSON.stringify(rawItems)) as MenuManagementItem[];
   } catch (error) {
-    console.error("Error fetching users:", error);
+    console.error("Error fetching items:", error);
+    return [] as MenuManagementItem[];
+  }
+}
+
+export async function getAvalibaleItems() {
+  try {
+    await connectDB();
+    const rawItems = await MenuItem.find({ isAvailable: true });
+    console.log(rawItems);
+    return JSON.parse(JSON.stringify(rawItems)) as MenuManagementItem[];
+  } catch (error) {
+    console.error("Error fetching avalibale items:", error);
     return [] as MenuManagementItem[];
   }
 }

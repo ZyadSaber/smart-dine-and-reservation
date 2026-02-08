@@ -47,6 +47,10 @@ const ReservationSchema: Schema = new Schema(
   { timestamps: true },
 );
 
+ReservationSchema.index({ tableId: 1, date: 1 });
+ReservationSchema.index({ customerPhone: 1 });
+ReservationSchema.index({ status: 1 });
+
 // In development, the model might already be registered in the global scope.
 // We delete it to ensure schema changes (like fullName) are correctly applied.
 if (process.env.NODE_ENV === "development") {

@@ -1,32 +1,22 @@
 "use client"
 
-import { Card, CardContent } from "@/components/ui/card"
+import { CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Users } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { useTranslations } from "next-intl"
+import TableOrder from "./TableOrder"
+import { TableData } from "@/types/table"
 
-interface Table {
-    _id: string
-    number: string
-    capacity: number
-    status: 'Available' | 'Occupied' | 'Reserved'
-}
-
-export function TableGrid({ tables }: { tables: Table[] }) {
+export function TableGrid({ tables }: { tables: TableData[] }) {
     const t = useTranslations("POS")
 
     return (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-4">
             {tables.map((table) => (
-                <Card
+                <TableOrder
                     key={table._id}
-                    className={cn(
-                        "relative overflow-hidden cursor-pointer transition-all hover:scale-105 active:scale-95 border-none shadow-md",
-                        table.status === 'Available' && "bg-emerald-50 dark:bg-emerald-950/20",
-                        table.status === 'Occupied' && "bg-orange-50 dark:bg-orange-950/20",
-                        table.status === 'Reserved' && "bg-blue-50 dark:bg-blue-950/20"
-                    )}
+                    table={table}
                 >
                     <CardContent className="p-4 flex flex-col items-center justify-center min-h-[120px] gap-2">
                         <div className="text-2xl font-black text-foreground/80">
@@ -58,7 +48,7 @@ export function TableGrid({ tables }: { tables: Table[] }) {
                         table.status === 'Occupied' && "bg-orange-500",
                         table.status === 'Reserved' && "bg-blue-500"
                     )} />
-                </Card>
+                </TableOrder>
             ))}
         </div>
     )

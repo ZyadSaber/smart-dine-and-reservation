@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/routing";
 import { ReactNode } from "react";
 import { RefreshCcw, Home } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 interface ErrorLayoutProps {
     icon: ReactNode;
@@ -17,6 +18,7 @@ interface ErrorLayoutProps {
 }
 
 export default function ErrorLayout({ icon, title, description, code, backText, reset, errorDetails }: ErrorLayoutProps) {
+    const t = useTranslations("Errors");
     return (
         <div className="min-h-screen flex items-center justify-center bg-background p-4 relative overflow-hidden">
             {/* Background Decorative Animated Elements */}
@@ -94,9 +96,9 @@ export default function ErrorLayout({ icon, title, description, code, backText, 
                     <motion.div
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: "auto" }}
-                        className="bg-destructive/5 border border-destructive/10 rounded-2xl p-4 text-xs font-mono text-destructive/80 overflow-hidden text-left"
+                        className="bg-destructive/5 border border-destructive/10 rounded-2xl p-4 text-xs font-mono text-destructive/80 overflow-hidden"
                     >
-                        <p className="font-bold uppercase tracking-wider mb-2 opacity-50">Error Details:</p>
+                        <p className="font-bold uppercase tracking-wider mb-2 opacity-50">{t("errorDetails")}</p>
                         <div className="max-h-32 overflow-y-auto custom-scrollbar">
                             {errorDetails}
                         </div>
@@ -116,7 +118,7 @@ export default function ErrorLayout({ icon, title, description, code, backText, 
                             className="w-full sm:w-auto rounded-2xl px-8 py-6 h-auto text-lg font-bold shadow-lg shadow-primary/20 hover:scale-105 transition-all group"
                         >
                             <RefreshCcw className="w-5 h-5 mr-3 group-hover:rotate-180 transition-transform duration-500" />
-                            Try Again
+                            {t("retry")}
                         </Button>
                     ) : (
                         <Button asChild size="lg" className="w-full sm:w-auto rounded-2xl px-8 py-6 h-auto text-lg font-bold shadow-lg shadow-primary/20 hover:scale-105 transition-all group">
@@ -129,9 +131,9 @@ export default function ErrorLayout({ icon, title, description, code, backText, 
 
                     {reset && (
                         <Button asChild variant="outline" size="lg" className="w-full sm:w-auto rounded-2xl px-8 py-6 h-auto text-lg font-bold border-white/10 hover:bg-white/5 transition-all">
-                            <Link href="/">
+                            <Link href="/management">
                                 <Home className="w-5 h-5 mr-3" />
-                                Go Home
+                                {t("goHome")}
                             </Link>
                         </Button>
                     )}

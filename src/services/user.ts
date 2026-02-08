@@ -11,6 +11,7 @@ import {
 } from "@/lib/auth-utils";
 import { cookies } from "next/headers";
 import { UserData, LogInProps } from "@/types/users";
+import Shift from "@/models/Shift";
 
 export async function login(data: LogInProps) {
   try {
@@ -27,13 +28,27 @@ export async function login(data: LogInProps) {
       return { error: "Invalid username or password" };
     }
 
-    const token = await signToken({
+    let payload = {
       _id: user._id,
       username: user.username,
       role: user.role,
       allowedPages: user.allowedPages,
       fullName: user.fullName,
-    });
+      shiftId: "",
+    };
+
+    if (user.role === "staff") {
+      const openShift = await Shift.findOne({ status: "Open" });
+      if (!openShift) {
+        return { error: "No open shift found" };
+      }
+      payload = {
+        ...payload,
+        shiftId: openShift._id,
+      };
+    }
+
+    const token = await signToken(payload);
 
     const cookieStore = await cookies();
     cookieStore.set("auth_token", token, {
