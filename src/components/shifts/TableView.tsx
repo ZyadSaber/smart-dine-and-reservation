@@ -63,7 +63,8 @@ const TableView = ({ shifts, users }: TableViewProps) => {
                                 <TableCell>
                                     <div className="flex flex-col text-xs">
                                         <span>{tPOS("cash")}: {shift.totalCashSales.toFixed(2)}</span>
-                                        <span>{tPOS("visa")}: {shift.totalVisaSales.toFixed(2)}</span>
+                                        <span>{tPOS("visa")}: {shift.totalCardSales.toFixed(2)}</span>
+                                        <span>{tPOS("digital")}: {shift.totalDigitalSales.toFixed(2)}</span>
                                     </div>
                                 </TableCell>
                                 <TableCell>

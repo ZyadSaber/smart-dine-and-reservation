@@ -23,7 +23,6 @@ export async function getAvalibaleItems() {
   try {
     await connectDB();
     const rawItems = await MenuItem.find({ isAvailable: true });
-    console.log(rawItems);
     return JSON.parse(JSON.stringify(rawItems)) as MenuManagementItem[];
   } catch (error) {
     console.error("Error fetching avalibale items:", error);

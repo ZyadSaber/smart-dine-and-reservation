@@ -96,11 +96,15 @@ const CloseShift = ({ openShifts }: CloseShiftProps) => {
                             </div>
                             <div className="flex justify-between">
                                 <span className="text-muted-foreground">{tPOS("visa")}:</span>
-                                <span className="font-medium">{selectedShift.totalVisaSales.toFixed(2)}</span>
+                                <span className="font-medium">{selectedShift.totalCardSales.toFixed(2)}</span>
+                            </div>
+                            <div className="flex justify-between">
+                                <span className="text-muted-foreground">{tPOS("digital")}:</span>
+                                <span className="font-medium">{selectedShift.totalDigitalSales.toFixed(2)}</span>
                             </div>
                             <div className="flex justify-between border-t pt-2 mt-2">
                                 <span className="font-semibold">{tPOS("total")}:</span>
-                                <span className="font-semibold">{(selectedShift.totalCashSales + selectedShift.totalVisaSales).toFixed(2)}</span>
+                                <span className="font-semibold">{(selectedShift.totalCashSales + selectedShift.totalCardSales + selectedShift.totalDigitalSales).toFixed(2)}</span>
                             </div>
                         </div>
                     )}

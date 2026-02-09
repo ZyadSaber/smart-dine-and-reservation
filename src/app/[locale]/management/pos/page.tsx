@@ -1,11 +1,14 @@
-import { TableGrid } from "@/components/pos/TableGrid";
+import { TableGrid, CloseTableView, Reservations } from "@/components/pos";
 import { getTranslations } from "next-intl/server";
 import { getRunningTables } from "@/services/order"
 import { getAuthSession } from "@/lib/auth-utils"
 
 export default async function POSPage() {
     const t = await getTranslations("POS");
-    const tables = await getRunningTables()
+    const {
+        allTables,
+        occupiedTables,
+    } = await getRunningTables()
     const currentSession = await getAuthSession()
 
     if (!currentSession?.shiftId) {
@@ -18,9 +21,13 @@ export default async function POSPage() {
                 <h2 className="text-3xl font-bold tracking-tight">
                     {t("tables")}
                 </h2>
+                <div className="flex flex-wrap gap-2">
+                    <CloseTableView tables={occupiedTables || []} />
+                    <Reservations />
+                </div>
             </div>
 
-            <TableGrid tables={tables || []} />
+            <TableGrid tables={allTables || []} />
         </div>
     );
 }

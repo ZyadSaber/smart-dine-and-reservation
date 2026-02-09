@@ -1,3 +1,5 @@
+"use client"
+
 import {
     Dialog,
     DialogContent,
@@ -19,8 +21,7 @@ import { POSFormData, ActiveMenuItem } from "@/types/pos";
 import { getRunningOrders } from "@/services/order";
 import { Input } from "@/components/ui/input";
 import isArrayHasData from "@/lib/isArrayHasData";
-import { SelectField } from "@/components/ui/select";
-import { createTableOrder } from "@/services/order";
+import { createOrUpdateTableOrder } from "@/services/order";
 import { toast } from "sonner";
 
 interface TableOrderProps {
@@ -40,7 +41,7 @@ const TableOrder = ({ table, children }: TableOrderProps) => {
         handleChange,
         handleFieldChange,
         resetForm,
-        handleToggle,
+        // handleToggle,
         handleChangeMultiInputs
     } = useFormManager<POSFormData>({
         initialData: {
@@ -61,6 +62,7 @@ const TableOrder = ({ table, children }: TableOrderProps) => {
                 }
             });
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [table._id, visible]);
 
     const handleAddItemsToCart = (selectedItems: ActiveMenuItem[]) => {
@@ -80,15 +82,13 @@ const TableOrder = ({ table, children }: TableOrderProps) => {
 
     const handleSubmit = () => {
         startTransition(async () => {
-            try {
-                const res = await createTableOrder(formData);
-                console.log(res)
-                handleClose();
-                resetForm();
+            const res = await createOrUpdateTableOrder(formData);
+            handleClose();
+            resetForm();
+            if (res.success === true) {
                 toast.success("Order created successfully")
-            } catch (error) {
-                toast.error("Failed to create order")
-                console.log(error);
+            } else {
+                toast.error(res.error)
             }
         });
     }
@@ -151,7 +151,7 @@ const TableOrder = ({ table, children }: TableOrderProps) => {
                         disabled
                         containerClassName="w-[48%]"
                     />
-                    <SelectField
+                    {/* <SelectField
                         label={tPos("paymentMethod")}
                         name="paymentMethod"
                         value={formData.paymentMethod}
@@ -164,7 +164,7 @@ const TableOrder = ({ table, children }: TableOrderProps) => {
                             { label: tPos("instapay"), key: "InstaPay" },
                             { label: tPos("e-wallet"), key: "E-wallet" },
                         ]}
-                    />
+                    /> */}
                 </div>
 
                 <DialogFooter>

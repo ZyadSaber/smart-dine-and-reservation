@@ -8,7 +8,7 @@ import { useTranslations } from "next-intl"
 import TableOrder from "./TableOrder"
 import { TableData } from "@/types/table"
 
-export function TableGrid({ tables }: { tables: TableData[] }) {
+const TableGrid = ({ tables }: { tables: TableData[] }) => {
     const t = useTranslations("POS")
 
     return (
@@ -53,3 +53,5 @@ export function TableGrid({ tables }: { tables: TableData[] }) {
         </div>
     )
 }
+
+export default TableGrid

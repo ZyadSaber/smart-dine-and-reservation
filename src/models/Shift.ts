@@ -33,4 +33,8 @@ const ShiftSchema: Schema = new Schema(
 ShiftSchema.index({ staffId: 1, status: 1 });
 ShiftSchema.index({ createdAt: -1 });
 
+if (process.env.NODE_ENV === "development") {
+  delete mongoose.models.Shift;
+}
+
 export default getModel<IShift>("Shift", ShiftSchema);

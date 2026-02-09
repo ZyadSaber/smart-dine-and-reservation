@@ -70,7 +70,7 @@ export function Shell({ children }: { children: React.ReactNode, allowedPages?: 
                         </div>
                     </div>
 
-                    <span className="text-sm font-bold text-primary">{user?.username || ""}</span>
+                    <span className="text-sm font-bold text-primary">{user?.fullName || ""}</span>
 
                     <div className="flex items-center gap-1 sm:gap-2">
                         <LanguageSwitcher />

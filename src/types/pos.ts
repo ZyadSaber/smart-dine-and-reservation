@@ -14,15 +14,18 @@ export interface OrderItemData {
 }
 
 export interface CreateOrderData {
-  shiftId: string;
-  staffId: string;
   tableId?: string;
-  reservationId?: string;
   items: OrderItemData[];
-  totalAmount: number;
   paymentMethod: PaymentMethod;
-  isPaid?: boolean;
+  totalAmount: number;
   notes?: string;
+  _id?: string;
+  reservationId?: string;
+  shiftId?: string;
+  staffId?: string;
+  status?: string;
+  orderType?: string;
+  isPaid?: boolean;
 }
 
 export interface OrderResponse {

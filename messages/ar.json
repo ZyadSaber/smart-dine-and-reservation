@@ -20,7 +20,8 @@
     "users": "المستخدمين",
     "welcomeBack": "مرحبا بعودتك",
     "shifts": "الورديات",
-    "notes": "ملاحظات"
+    "notes": "ملاحظات",
+    "back": "رجوع"
   },
   "POS": {
     "tables": "الطاولات",
@@ -37,7 +38,8 @@
     "totalAmount": "الاجمالي",
     "instapay": "InstaPay",
     "e-wallet": "محفظة الكترونية",
-    "card": "بطاقة"
+    "card": "بطاقة",
+    "closeTable": "اغلاق طاولة"
   },
   "Shift": {
     "title": "إدارة الورديات",

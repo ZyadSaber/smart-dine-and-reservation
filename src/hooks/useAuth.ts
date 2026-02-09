@@ -8,6 +8,7 @@ export interface UserSession {
   username: string;
   role: string;
   allowedPages: string[];
+  fullName: string;
 }
 
 export function useAuth() {

@@ -21,7 +21,8 @@
     "tables": "Tables",
     "welcomeBack": "Welcome Back",
     "shifts": "Shifts",
-    "notes": "Notes"
+    "notes": "Notes",
+    "back": "Back"
   },
   "POS": {
     "tables": "Tables",
@@ -38,7 +39,8 @@
     "totalAmount": "Total Amount",
     "instapay": "InstaPay",
     "e-wallet": "E-wallet",
-    "card": "Card"
+    "card": "Card",
+    "closeTable": "Close Table"
   },
   "Shift": {
     "title": "Shift Management",
