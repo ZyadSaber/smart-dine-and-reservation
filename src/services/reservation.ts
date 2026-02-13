@@ -12,25 +12,9 @@ export async function createReservation(data: {
   partySize: number;
   date: Date;
   startTime: string;
-  tableId?: string;
   menuItems?: { itemId: string; quantity: number }[];
 }) {
   await connectDB();
-
-  let assignedTableId = data.tableId;
-
-  if (!assignedTableId) {
-    // Find an available table with sufficient capacity
-    const table = await Table.findOne({
-      capacity: { $gte: data.partySize },
-      status: "Available",
-    });
-
-    if (!table) {
-      throw new Error("No tables available for this party size");
-    }
-    assignedTableId = table._id.toString();
-  }
 
   // Calculate default endTime (e.g., +2 hours)
   const [startHour, startMinute] = data.startTime.split(":").map(Number);
@@ -40,7 +24,6 @@ export async function createReservation(data: {
   // Create the reservation
   const reservation = await Reservation.create({
     ...data,
-    tableId: assignedTableId,
     endTime: endTimeStr,
     status: "Pending",
   });
@@ -66,9 +49,10 @@ export async function createReservation(data: {
 export async function getReservations() {
   try {
     await connectDB();
-    const reservations = await Reservation.find({})
-      .populate("tableId")
-      .sort({ date: -1, startTime: -1 });
+    const reservations = await Reservation.find().sort({
+      date: -1,
+      startTime: -1,
+    });
     return JSON.parse(JSON.stringify(reservations));
   } catch (error) {
     console.error("Error fetching reservations:", error);

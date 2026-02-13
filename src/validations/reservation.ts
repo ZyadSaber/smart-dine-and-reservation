@@ -8,7 +8,6 @@ export const reservationSchema = z.object({
   customerPhone: z
     .string()
     .min(10, "Phone number must be at least 10 characters"),
-  tableId: z.string().optional(),
   date: z.union([z.date(), z.string()]),
   startTime: z.string(),
   endTime: z.string(),

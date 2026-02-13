@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect, useMemo, useTransition } from "react"
+import { useEffect, useState, useTransition } from "react"
 import { useTranslations } from "next-intl"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
@@ -18,18 +18,14 @@ import {
     Plus,
     Minus,
     Clock,
-    LayoutDashboard
 } from "lucide-react"
 import { createReservation } from "@/services/reservation"
-import { getTables } from "@/services/table"
 import { getItems } from "@/services/menu"
 import { QRCodeSVG } from "qrcode.react"
 import { Link } from "@/i18n/routing"
 import { useFormManager } from "@/hooks"
 import { reservationSchema } from "@/validations/reservation"
-import { TableData } from "@/types/table"
 import { MenuManagementItem } from "@/types/menu"
-import { SelectField } from "@/components/ui/select"
 import { Badge } from "@/components/ui/badge"
 import { toast } from "sonner"
 import getCurrentDate from "@/lib/getCurrentDate"
@@ -39,18 +35,7 @@ export default function ReservePage() {
     const t = useTranslations("Reservation")
     const [loading, startTransition] = useTransition();
 
-    const {
-        formData: {
-            tables,
-            menuItems
-        },
-        handleFieldChange: dataHandleFieldChange
-    } = useFormManager({
-        initialData: {
-            tables: [] as TableData[],
-            menuItems: [] as MenuManagementItem[]
-        }
-    })
+    const [menuItems, setMenuItems] = useState<MenuManagementItem[]>([])
 
     const {
         formData,
@@ -67,7 +52,6 @@ export default function ReservePage() {
             date: getCurrentDate(),
             startTime: "19:00",
             endTime: "21:00",
-            tableId: "",
             status: "Pending" as const,
             reservedBy: "Website" as const,
             menuItems: [] as { itemId: string; quantity: number }[],
@@ -80,24 +64,13 @@ export default function ReservePage() {
     useEffect(() => {
         startTransition(async () => {
             try {
-                const [tablesRes, itemsRes] = await Promise.all([
-                    getTables(),
-                    getItems()
-                ])
-                if (tablesRes) dataHandleFieldChange({ name: "tables", value: tablesRes })
-                if (itemsRes) dataHandleFieldChange({ name: "menuItems", value: itemsRes })
+                const itemsRes = await getItems()
+                if (itemsRes) setMenuItems(itemsRes)
             } catch (error) {
                 console.error("Failed to fetch data", error)
             }
         })
-        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
-
-    const tableOptions = useMemo(() =>
-        (tables as TableData[] || []).map(table => ({
-            key: table._id!,
-            label: `Table ${table.number} (Capacity: ${table.capacity})`
-        })), [tables])
 
     const handleMenuItemChange = (itemId: string, delta: number) => {
         const currentItems = [...(formData.menuItems || [])]
@@ -139,7 +112,6 @@ export default function ReservePage() {
                     partySize: Number(formData.partySize),
                     date: reservationDate,
                     startTime: formData.startTime,
-                    tableId: formData.tableId || undefined,
                     menuItems: formData.menuItems
                 })
                 handleChangeMultiInputs({
@@ -290,21 +262,6 @@ export default function ReservePage() {
                                 <CardContent className="space-y-8">
                                     <div className="space-y-4">
                                         <div className="flex items-center gap-2 text-sm font-semibold text-muted-foreground px-1 uppercase tracking-wider">
-                                            <LayoutDashboard className="w-4 h-4" /> Table Selection
-                                        </div>
-                                        <SelectField
-                                            label="Select Table"
-                                            name="tableId"
-                                            value={formData.tableId}
-                                            onValueChange={(val) => handleFieldChange({ name: "tableId", value: val })}
-                                            options={tableOptions}
-                                            containerClassName="px-0"
-                                            error={errors.tableId}
-                                        />
-                                    </div>
-
-                                    <div className="space-y-4">
-                                        <div className="flex items-center gap-2 text-sm font-semibold text-muted-foreground px-1 uppercase tracking-wider">
                                             <UtensilsCrossed className="w-4 h-4" /> Pre-order Menu
                                         </div>
                                         <div className="max-h-[300px] overflow-y-auto pr-2 space-y-3 custom-scrollbar">
@@ -404,12 +361,6 @@ export default function ReservePage() {
                                         <span className="text-muted-foreground">{t("time")}</span>
                                         <span className="font-black">{formData.startTime}</span>
                                     </div>
-                                    {formData.tableId && (
-                                        <div className="flex justify-between items-center text-sm pt-2 border-t border-white/5">
-                                            <span className="text-muted-foreground">Chosen Table</span>
-                                            <span className="font-black text-primary"># {(tables as TableData[] || []).find(t => t._id === formData.tableId)?.number}</span>
-                                        </div>
-                                    )}
                                     {formData.menuItems && formData.menuItems.length > 0 && (
                                         <div className="pt-2 border-t border-white/5">
                                             <span className="text-xs font-bold text-muted-foreground">Pre-ordered Items:</span>

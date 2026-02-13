@@ -4,7 +4,6 @@ import getModel from "./getModal";
 export interface IReservation extends Document {
   customerName: string;
   customerPhone: string;
-  tableId: mongoose.Types.ObjectId;
   date: Date;
   startTime: string;
   endTime: string;
@@ -21,7 +20,6 @@ const ReservationSchema: Schema = new Schema(
   {
     customerName: { type: String, required: true },
     customerPhone: { type: String, required: true },
-    tableId: { type: Schema.Types.ObjectId, ref: "Table", required: true },
     date: { type: Date, required: true },
     startTime: { type: String, required: true },
     endTime: { type: String, required: true },
@@ -47,7 +45,7 @@ const ReservationSchema: Schema = new Schema(
   { timestamps: true },
 );
 
-ReservationSchema.index({ tableId: 1, date: 1 });
+ReservationSchema.index({ date: 1 });
 ReservationSchema.index({ customerPhone: 1 });
 ReservationSchema.index({ status: 1 });
 
