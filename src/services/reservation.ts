@@ -2,7 +2,6 @@
 
 import connectDB from "@/lib/mongodb";
 import Reservation from "@/models/Reservation";
-import Table from "@/models/Table";
 import { revalidatePath } from "next/cache";
 import { ReservationData } from "@/types/reservation";
 
@@ -72,22 +71,7 @@ export async function createReservationAdmin(data: ReservationData) {
       endTime,
       status,
       reservedBy,
-      tableId,
     } = data;
-
-    let assignedTableId = tableId;
-
-    if (!assignedTableId) {
-      // Auto-assign logic if no table selected
-      const table = await Table.findOne({
-        capacity: { $gte: partySize },
-        status: "Available",
-      });
-      if (!table) {
-        throw new Error("No tables available for this party size");
-      }
-      assignedTableId = table._id;
-    }
 
     await Reservation.create({
       customerName,
@@ -98,7 +82,6 @@ export async function createReservationAdmin(data: ReservationData) {
       endTime,
       status,
       reservedBy,
-      tableId: assignedTableId,
     });
 
     revalidatePath("/management/reservations");
@@ -124,7 +107,6 @@ export async function updateReservation(data: ReservationData) {
       endTime,
       status,
       reservedBy,
-      tableId,
     } = data;
 
     await Reservation.findByIdAndUpdate(_id, {
@@ -136,7 +118,6 @@ export async function updateReservation(data: ReservationData) {
       endTime,
       status,
       reservedBy,
-      tableId,
     });
 
     revalidatePath("/management/reservations");

@@ -39,7 +39,12 @@ const AddOrEditShift = ({ currentShift, users }: AddOrEditShiftProps) => {
     const { formData, handleFieldChange, resetForm, validate } = useFormManager({
         initialData: {
             openingBalance: 0,
+            totalCashSales: 0,
+            totalVisaSales: 0,
+            totalCardSales: 0,
+            totalDigitalSales: 0,
             status: "Open" as "Open" | "Closed",
+            startTime: currentShift?.startTime || new Date(),
             ...currentShift,
             staffId: currentShift?.staffId
                 ? (typeof currentShift.staffId === 'string' ? currentShift.staffId : (currentShift.staffId as UserData)._id!)
@@ -54,9 +59,12 @@ const AddOrEditShift = ({ currentShift, users }: AddOrEditShiftProps) => {
             let result;
             if (editingShift) {
                 // Ensure we don't send strings as Dates
-                const cleanData: IShiftData = { ...formData, _id: currentShift!._id };
-                if (typeof cleanData.startTime === 'string') cleanData.startTime = new Date(cleanData.startTime);
-                if (typeof cleanData.endTime === 'string') cleanData.endTime = new Date(cleanData.endTime);
+                const cleanData = {
+                    ...formData,
+                    _id: currentShift._id,
+                    startTime: formData.startTime ? new Date(formData.startTime) : currentShift.startTime,
+                    endTime: formData.endTime ? new Date(formData.endTime) : currentShift.endTime,
+                } as unknown as IShiftData;
 
                 result = await updateShift(currentShift._id!, cleanData);
             } else {

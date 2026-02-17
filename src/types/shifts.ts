@@ -8,6 +8,7 @@ export interface IShiftData {
   openingBalance: number;
   totalCashSales: number;
   totalCardSales: number;
+  totalVisaSales: number;
   totalDigitalSales: number;
   actualCashAtClose?: number;
   status: "Open" | "Closed";

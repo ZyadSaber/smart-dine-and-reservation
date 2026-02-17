@@ -8,6 +8,8 @@ export const shiftSchema = z.object({
   openingBalance: z.number().min(0, "Opening balance must be at least 0"),
   totalCashSales: z.number().min(0).default(0),
   totalVisaSales: z.number().min(0).default(0),
+  totalCardSales: z.number().min(0).default(0),
+  totalDigitalSales: z.number().min(0).default(0),
   actualCashAtClose: z.number().min(0).optional(),
   status: z.enum(["Open", "Closed"]),
 });

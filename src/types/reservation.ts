@@ -2,7 +2,6 @@ export interface ReservationData {
   _id?: string;
   customerName: string;
   customerPhone: string;
-  tableId?: { _id: string; number: number } | string; // Populated or ID
   startTime: string;
   endTime: string;
   date: Date;

@@ -1,6 +1,6 @@
 "use client"
 
-import { useMemo, useTransition } from "react";
+import { useTransition } from "react";
 import { useFormManager, useVisibility } from "@/hooks";
 import {
     Dialog,
@@ -19,24 +19,17 @@ import { toast } from "sonner";
 import { createReservationAdmin, updateReservation } from "@/services/reservation";
 import { useRouter } from "next/navigation";
 import { ReservationData } from "@/types/reservation";
-import { TableData } from "@/types/table";
-import isObjectHasData from "@/lib/isObjectHasData";
 import getCurrentDate from "@/lib/getCurrentDate";
 
 interface AddOrEditReservationProps {
     currentReservation?: ReservationData;
-    tables: TableData[];
 }
 
-const AddOrEditReservation = ({ currentReservation, tables }: AddOrEditReservationProps) => {
+const AddOrEditReservation = ({ currentReservation }: AddOrEditReservationProps) => {
     const { visible, handleStateChange, handleClose } = useVisibility();
     const [isPending, startTransition] = useTransition();
     const router = useRouter();
-    const tableOptions = useMemo(() =>
-        tables.map((table) => ({
-            key: table._id!,
-            label: `Table ${table.number} (Capacity: ${table.capacity})`
-        })), [tables])
+
 
     const editingReservation = !!currentReservation;
 
@@ -48,7 +41,6 @@ const AddOrEditReservation = ({ currentReservation, tables }: AddOrEditReservati
             date: currentReservation?.date ? new Date(currentReservation.date).toISOString().split('T')[0] : getCurrentDate(),
             startTime: currentReservation?.startTime || "12:00",
             endTime: currentReservation?.endTime || "14:00",
-            tableId: isObjectHasData(currentReservation?.tableId) ? currentReservation.tableId._id : (currentReservation?.tableId as string) || "",
             status: currentReservation?.status || "Pending",
             reservedBy: currentReservation?.reservedBy || "WalkIn",
         },
@@ -200,17 +192,7 @@ const AddOrEditReservation = ({ currentReservation, tables }: AddOrEditReservati
                         </div>
                     </div>
 
-                    <div className="space-y-2">
-                        <label className="text-sm font-medium">Table (Optional)</label>
-                        <SelectField
-                            label="Select Table"
-                            name="tableId"
-                            value={formData.tableId as string}
-                            onValueChange={(value) => handleFieldChange({ name: "tableId", value })}
-                            options={tableOptions}
-                            error={errors.tableId}
-                        />
-                    </div>
+
 
                     <div className="grid grid-cols-2 gap-4">
                         <SelectField

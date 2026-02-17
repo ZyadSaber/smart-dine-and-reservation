@@ -8,6 +8,7 @@ export interface IShift extends Document {
   openingBalance: number;
   totalCashSales: number;
   totalCardSales: number;
+  totalVisaSales: number;
   totalDigitalSales: number;
   actualCashAtClose?: number;
   status: "Open" | "Closed";
@@ -23,6 +24,7 @@ const ShiftSchema: Schema = new Schema(
     openingBalance: { type: Number, required: true },
     totalCashSales: { type: Number, default: 0 },
     totalCardSales: { type: Number, default: 0 },
+    totalVisaSales: { type: Number, default: 0 },
     totalDigitalSales: { type: Number, default: 0 },
     actualCashAtClose: { type: Number },
     status: { type: String, enum: ["Open", "Closed"], default: "Open" },
