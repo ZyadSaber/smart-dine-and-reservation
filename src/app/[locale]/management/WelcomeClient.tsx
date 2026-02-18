@@ -69,9 +69,11 @@ export default function WelcomeClient({ username, items }: WelcomeClientProps) {
                 className="flex flex-col items-center text-center mb-16"
             >
                 <div className="relative mb-6">
-                    <Logo
-                        className="w-30 h-30"
-                    />
+                    <div className="p-6 rounded-full shadow-2xl bg-white/5 backdrop-blur-md border border-white/10">
+                        <Logo
+                            className="w-24 h-24"
+                        />
+                    </div>
                 </div>
 
                 <h1 className="text-4xl md:text-6xl font-black tracking-tight mb-4 text-balance">
