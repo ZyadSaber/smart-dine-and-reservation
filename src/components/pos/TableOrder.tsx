@@ -8,16 +8,15 @@ import {
     DialogTrigger,
     DialogFooter,
 } from "@/components/ui/dialog";
-import { useFormManager, useVisibility, useAuth } from "@/hooks";
+import { useFormManager, useVisibility } from "@/hooks";
 import { Card } from "@/components/ui/card";
 import { cn } from "@/lib/utils";
 import { TableData } from "@/types/table"
 import { Button } from "@/components/ui/button";
 import { useEffect, useTransition } from "react";
 import { useTranslations, useLocale } from "next-intl";
-import { createOrUpdateTableOrder, closeTable, getRunningOrders } from "@/services/order";
+import { createOrUpdateTableOrder, getRunningOrders } from "@/services/order";
 import { toast } from "sonner";
-import { SelectField } from "@/components/ui/select";
 import { getLocalizedValue } from "@/lib/localize";
 import AddItem from "./AddItem";
 import { POSFormData, ActiveMenuItem, POSCartItem } from "@/types/pos";
@@ -41,7 +40,6 @@ const TableOrder = ({ table, children }: TableOrderProps) => {
         handleChange,
         handleFieldChange,
         resetForm,
-        handleToggle,
         handleChangeMultiInputs
     } = useFormManager<POSFormData>({
         initialData: {
@@ -53,9 +51,6 @@ const TableOrder = ({ table, children }: TableOrderProps) => {
             notes: ""
         }
     })
-
-    const { user } = useAuth();
-    const canManagePayment = user?.role === 'admin' || user?.role === 'cashier';
 
     useEffect(() => {
         if (visible) {
@@ -101,19 +96,6 @@ const TableOrder = ({ table, children }: TableOrderProps) => {
         });
     }
 
-    const handleCloseTable = () => {
-        startTransition(async () => {
-            const res = await closeTable(formData);
-            if (res.success) {
-                handleClose();
-                resetForm();
-                toast.success("Table closed successfully");
-            } else {
-                toast.error(res.error || "Failed to close table");
-            }
-        });
-    }
-
     const hasItmes = isArrayHasData(formData.items)
 
     return (
@@ -135,10 +117,10 @@ const TableOrder = ({ table, children }: TableOrderProps) => {
                     <DialogTitle>
                         <div className="w-full flex justify-between items-center pr-5">
                             <span>Order for {table.number}</span>
-                            {!canManagePayment && <AddItem
+                            <AddItem
                                 onAdd={handleAddItemsToCart}
                                 existingItems={formData.items}
-                            />}
+                            />
                         </div>
                     </DialogTitle>
                 </DialogHeader>
@@ -182,7 +164,7 @@ const TableOrder = ({ table, children }: TableOrderProps) => {
                         name="notes"
                         value={formData.notes}
                         onChange={handleChange}
-                        disabled={!hasItmes || canManagePayment}
+                        disabled={!hasItmes}
                         containerClassName="w-full"
                     />
                     <Input
@@ -190,52 +172,14 @@ const TableOrder = ({ table, children }: TableOrderProps) => {
                         name="totalAmount"
                         value={formData.totalAmount.toFixed(2)}
                         disabled
-                        containerClassName={canManagePayment ? "w-[48%]" : "w-full"}
+                        containerClassName="w-full"
                     />
-                    {canManagePayment && (
-                        <>
-                            <Input
-                                label={tPos("discount")}
-                                name="discount"
-                                type="number"
-                                value={formData.discount}
-                                onChange={handleChange}
-                                containerClassName="w-[48%]"
-                                disabled={!hasItmes}
-                            />
-                            <SelectField
-                                label={tPos("paymentMethod")}
-                                name="paymentMethod"
-                                value={formData.paymentMethod}
-                                onValueChange={handleToggle("paymentMethod")}
-                                disabled={!hasItmes}
-                                containerClassName="w-full"
-                                options={[
-                                    { label: tPos("cash"), key: "Cash" },
-                                    { label: tPos("card"), key: "Card" },
-                                    { label: tPos("instapay"), key: "InstaPay" },
-                                    { label: tPos("e-wallet"), key: "E-wallet" },
-                                ]}
-                            />
-                        </>
-                    )}
                 </div>
 
                 <DialogFooter className="gap-2">
-                    {canManagePayment ? (
-                        <Button
-                            variant="destructive"
-                            onClick={handleCloseTable}
-                            disabled={!formData.paymentMethod}
-                            isLoading={isPending}
-                        >
-                            {tPos("closeTable")}
-                        </Button>
-                    ) : (
-                        <Button onClick={handleSubmit} isLoading={isPending}>
-                            {t("save")}
-                        </Button>
-                    )}
+                    <Button onClick={handleSubmit} isLoading={isPending}>
+                        {t("save")}
+                    </Button>
                     <Button onClick={handleClose} isLoading={isPending} variant="outline">{t("cancel")}</Button>
                 </DialogFooter>
             </DialogContent>

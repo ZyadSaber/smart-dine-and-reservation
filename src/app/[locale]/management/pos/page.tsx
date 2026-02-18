@@ -3,11 +3,13 @@ import { getTranslations } from "next-intl/server";
 import { getRunningTables } from "@/services/order"
 import { getAuthSession } from "@/lib/auth-utils"
 import { getOpenShifts } from "@/services/shift";
+import CloseTable from "@/components/pos/CloseTableView";
 
 export default async function POSPage() {
     const t = await getTranslations("POS");
     const {
         allTables,
+        occupiedTables
     } = await getRunningTables()
     const currentSession = await getAuthSession()
 
@@ -29,6 +31,9 @@ export default async function POSPage() {
                     {t("tables")}
                 </h2>
                 <div className="flex flex-wrap gap-2">
+                    {currentSession?.role === "cashier" && (
+                        <CloseTable tables={occupiedTables || []} />
+                    )}
                     <Reservations />
                 </div>
             </div>

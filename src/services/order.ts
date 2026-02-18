@@ -9,6 +9,7 @@ import Table from "@/models/Table";
 
 import { CreateOrderData, OrderItemData } from "@/types/pos";
 import { getAuthSession } from "@/lib/auth-utils";
+import { TableData } from "@/types/table";
 import MenuItem, { IMenuItem } from "@/models/MenuItem";
 
 export async function getRunningTables() {
@@ -19,10 +20,11 @@ export async function getRunningTables() {
       status: 1,
     });
 
-    const parsedData = JSON.parse(JSON.stringify(tables));
+    const parsedData = JSON.parse(JSON.stringify(tables)) as TableData[];
 
     return {
       allTables: parsedData,
+      occupiedTables: parsedData.filter((t) => t.status === "Occupied"),
     };
   } catch (error) {
     console.error("Error fetching tables:", error);
