@@ -8,7 +8,6 @@ import { revalidatePath } from "next/cache";
 import Table from "@/models/Table";
 
 import { CreateOrderData } from "@/types/pos";
-import { TableData } from "@/types/table";
 import { getAuthSession } from "@/lib/auth-utils";
 
 export async function getRunningTables() {
@@ -23,15 +22,6 @@ export async function getRunningTables() {
 
     return {
       allTables: parsedData,
-      availableTables: parsedData.filter(
-        (table: TableData) => table.status === "Available",
-      ),
-      occupiedTables: parsedData.filter(
-        (table: TableData) => table.status === "Occupied",
-      ),
-      reservedTables: parsedData.filter(
-        (table: TableData) => table.status === "Reserved",
-      ),
     };
   } catch (error) {
     console.error("Error fetching tables:", error);
@@ -69,6 +59,7 @@ export async function closeTable(data: CreateOrderData) {
       data._id,
       {
         paymentMethod: data.paymentMethod,
+        discount: data.discount,
         isPaid: true,
       },
       {
@@ -126,6 +117,7 @@ export async function createOrUpdateTableOrder(
           totalPrice: item.totalPrice,
         })),
         totalAmount: data.totalAmount,
+        discount: data.discount,
         paymentMethod: data.paymentMethod,
         isPaid: !!data.paymentMethod ? true : false,
         notes: data.notes,
@@ -144,6 +136,7 @@ export async function createOrUpdateTableOrder(
               totalPrice: item.totalPrice,
             })),
             totalAmount: data.totalAmount,
+            discount: data.discount,
             paymentMethod: data.paymentMethod,
             isPaid: !!data.paymentMethod ? true : false,
             notes: data.notes,

@@ -19,6 +19,7 @@ export interface IOrder extends Document {
   reservationId?: mongoose.Types.ObjectId;
   items: IOrderItem[];
   totalAmount: number;
+  discount: number;
   paymentMethod: PaymentMethod;
   status: OrderStatus;
   orderType: OrderType;
@@ -47,6 +48,7 @@ const OrderSchema: Schema = new Schema(
       },
     ],
     totalAmount: { type: Number, required: true, default: 0 },
+    discount: { type: Number, default: 0 },
     paymentMethod: {
       type: String,
       enum: ["Cash", "Card", "InstaPay", "E-wallet", ""],

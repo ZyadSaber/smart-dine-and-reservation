@@ -18,6 +18,7 @@ export interface CreateOrderData {
   items: OrderItemData[];
   paymentMethod: PaymentMethod;
   totalAmount: number;
+  discount?: number;
   notes?: string;
   _id?: string;
   reservationId?: string;
@@ -55,6 +56,7 @@ export interface POSFormData {
   items: POSCartItem[];
   paymentMethod: PaymentMethod;
   totalAmount: number;
+  discount: number;
   notes?: string;
 }
 

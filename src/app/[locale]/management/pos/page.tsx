@@ -1,4 +1,4 @@
-import { TableGrid, CloseTableView, Reservations } from "@/components/pos";
+import { TableGrid, Reservations } from "@/components/pos";
 import { getTranslations } from "next-intl/server";
 import { getRunningTables } from "@/services/order"
 import { getAuthSession } from "@/lib/auth-utils"
@@ -7,11 +7,10 @@ export default async function POSPage() {
     const t = await getTranslations("POS");
     const {
         allTables,
-        occupiedTables,
     } = await getRunningTables()
     const currentSession = await getAuthSession()
 
-    if (!currentSession?.shiftId) {
+    if (!currentSession?.shiftId && currentSession?.role !== "admin") {
         throw new Error(t("openShiftFirst"))
     }
 
@@ -22,7 +21,6 @@ export default async function POSPage() {
                     {t("tables")}
                 </h2>
                 <div className="flex flex-wrap gap-2">
-                    <CloseTableView tables={occupiedTables || []} />
                     <Reservations />
                 </div>
             </div>

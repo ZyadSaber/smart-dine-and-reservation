@@ -46,7 +46,8 @@
     "addTable": "Add Table",
     "editTable": "Edit Table",
     "tableNumber": "Table Number",
-    "capacity": "Capacity"
+    "capacity": "Capacity",
+    "discount": "Discount"
   },
   "Shift": {
     "title": "Shift Management",

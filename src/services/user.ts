@@ -45,6 +45,7 @@ export async function login(data: LogInProps) {
       payload = {
         ...payload,
         shiftId: openShift._id,
+        role: user.role, // Ensure role is explicitly included/maintained
       };
     }
 

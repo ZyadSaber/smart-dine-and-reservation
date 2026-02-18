@@ -95,7 +95,7 @@ const AddItem = ({
                 </DialogHeader>
 
                 <LoadingOverlay loading={loading} message="Fetching menu items...">
-                    <div className="grid gap-4 py-4 overflow-y-auto pr-2 custom-scrollbar">
+                    <div className="grid gap-4 py-4 overflow-y-auto pr-2 custom-scrollbar max-h-[60vh]">
                         {formData.menuItems.filter(item => item.isAvailable).map((item) => (
                             <div key={item._id} className="flex items-center justify-between p-3 rounded-2xl bg-accent/30 border border-white/5 hover:bg-accent/40 transition-colors">
                                 <div className="flex-1">

@@ -37,7 +37,7 @@
     "visa": "فيزا",
     "total": "الإجمالي",
     "openShiftFirst": "افتح وردية أولاً",
-    "paymentMethod": "وسيلى الدفع",
+    "paymentMethod": "وسيلة الدفع",
     "totalAmount": "الاجمالي",
     "instapay": "InstaPay",
     "e-wallet": "محفظة الكترونية",
@@ -46,7 +46,8 @@
     "addTable": "إضافة طاولة",
     "editTable": "تعديل طاولة",
     "tableNumber": "رقم الطاولة",
-    "capacity": "الكفاءة"
+    "capacity": "الكفاءة",
+    "discount": "الخصم"
   },
   "Shift": {
     "title": "إدارة الورديات",
