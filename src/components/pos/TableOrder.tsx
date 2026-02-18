@@ -55,7 +55,7 @@ const TableOrder = ({ table, children }: TableOrderProps) => {
     })
 
     const { user } = useAuth();
-    const isAdmin = user?.role === 'admin';
+    const canManagePayment = user?.role === 'admin' || user?.role === 'cashier';
 
     useEffect(() => {
         if (visible) {
@@ -135,7 +135,7 @@ const TableOrder = ({ table, children }: TableOrderProps) => {
                     <DialogTitle>
                         <div className="w-full flex justify-between items-center pr-5">
                             <span>Order for {table.number}</span>
-                            {!isAdmin && <AddItem
+                            {!canManagePayment && <AddItem
                                 onAdd={handleAddItemsToCart}
                                 existingItems={formData.items}
                             />}
@@ -144,25 +144,45 @@ const TableOrder = ({ table, children }: TableOrderProps) => {
                 </DialogHeader>
 
                 <div className="flex gap-4 flex-wrap py-4">
-                    <div className="w-full">
-                        {hasItmes ? formData.items.map((item: POSCartItem) => (
-                            <div key={item.itemId} className="flex items-center justify-between p-3 rounded-2xl bg-accent/30 border border-white/5 hover:bg-accent/40 transition-colors">
-                                <div className="flex-1">
-                                    <h4 className="font-bold text-sm tracking-tight">{getLocalizedValue(item.name, locale)}</h4>
-                                    <span className="text-xs font-black mt-1 block">{item.quantity} x {item.price.toFixed(2)}</span>
+                    <div className="w-full max-h-[300px] overflow-y-auto pr-2 flex flex-col gap-2 custom-scrollbar">
+                        {hasItmes ? (
+                            formData.items.map((item: POSCartItem) => (
+                                <div
+                                    key={item.itemId}
+                                    className="flex items-center justify-between p-4 rounded-2xl bg-accent/30 border border-white/5 hover:bg-accent/40 transition-all duration-200"
+                                >
+                                    <div className="flex-1">
+                                        <h4 className="font-bold text-sm tracking-tight">
+                                            {getLocalizedValue(item.name, locale)}
+                                        </h4>
+                                        <div className="flex items-center gap-2 mt-1">
+                                            <span className="text-[10px] bg-primary/10 text-primary px-2 py-0.5 rounded-full font-bold">
+                                                {item.quantity}x
+                                            </span>
+                                            <span className="text-xs text-muted-foreground font-medium">
+                                                {(item.price || 0).toFixed(2)}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div className="flex items-center gap-3 ml-4 bg-background/50 px-3 py-1.5 rounded-xl border border-white/10 shadow-sm">
+                                        <span className="text-sm font-black text-primary">
+                                            ${(item.totalPrice || 0).toFixed(2)}
+                                        </span>
+                                    </div>
                                 </div>
-                                <div className="flex items-center gap-3 ml-4 bg-background/50 p-1.5 rounded-xl border border-white/10 shadow-sm">
-                                    <span className="w-auto text-center text-sm font-bold">${item.totalPrice.toFixed(2)}</span>
-                                </div>
+                            ))
+                        ) : (
+                            <div className="flex flex-col items-center justify-center py-8 opacity-40">
+                                <p className="text-sm font-bold italic">No items added yet</p>
                             </div>
-                        )) : <p>No items added</p>}
+                        )}
                     </div>
                     <Input
                         label={t("notes")}
                         name="notes"
                         value={formData.notes}
                         onChange={handleChange}
-                        disabled={!hasItmes || isAdmin}
+                        disabled={!hasItmes || canManagePayment}
                         containerClassName="w-full"
                     />
                     <Input
@@ -170,9 +190,9 @@ const TableOrder = ({ table, children }: TableOrderProps) => {
                         name="totalAmount"
                         value={formData.totalAmount.toFixed(2)}
                         disabled
-                        containerClassName={isAdmin ? "w-[48%]" : "w-full"}
+                        containerClassName={canManagePayment ? "w-[48%]" : "w-full"}
                     />
-                    {isAdmin && (
+                    {canManagePayment && (
                         <>
                             <Input
                                 label={tPos("discount")}
@@ -202,7 +222,7 @@ const TableOrder = ({ table, children }: TableOrderProps) => {
                 </div>
 
                 <DialogFooter className="gap-2">
-                    {isAdmin ? (
+                    {canManagePayment ? (
                         <Button
                             variant="destructive"
                             onClick={handleCloseTable}

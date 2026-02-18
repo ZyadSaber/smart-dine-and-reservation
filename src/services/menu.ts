@@ -22,10 +22,12 @@ export async function getItems() {
 export async function getAvalibaleItems() {
   try {
     await connectDB();
-    const rawItems = await MenuItem.find({ isAvailable: true });
+    const rawItems = await MenuItem.find({ isAvailable: true }).populate(
+      "category",
+    );
     return JSON.parse(JSON.stringify(rawItems)) as MenuManagementItem[];
   } catch (error) {
-    console.error("Error fetching avalibale items:", error);
+    console.error("Error fetching available items:", error);
     return [] as MenuManagementItem[];
   }
 }

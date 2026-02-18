@@ -2,6 +2,7 @@ import { TableGrid, Reservations } from "@/components/pos";
 import { getTranslations } from "next-intl/server";
 import { getRunningTables } from "@/services/order"
 import { getAuthSession } from "@/lib/auth-utils"
+import { getOpenShifts } from "@/services/shift";
 
 export default async function POSPage() {
     const t = await getTranslations("POS");
@@ -10,7 +11,14 @@ export default async function POSPage() {
     } = await getRunningTables()
     const currentSession = await getAuthSession()
 
-    if (!currentSession?.shiftId && currentSession?.role !== "admin") {
+    if (currentSession?.role === "admin") {
+        return <div className="p-10 text-center font-bold text-rose-500">Access Restricted: POS is only available for Staff and Cashier users.</div>
+    }
+
+    const openShifts = await getOpenShifts();
+    const hasActiveShift = currentSession?.shiftId || openShifts.length > 0;
+
+    if (!hasActiveShift) {
         throw new Error(t("openShiftFirst"))
     }
 

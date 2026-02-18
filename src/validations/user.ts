@@ -4,7 +4,7 @@ export const userSchema = z.object({
   _id: z.string().optional(),
   username: z.string().min(3, "Username must be at least 3 characters"),
   password: z.string().optional().or(z.literal("")),
-  role: z.enum(["admin", "staff", "manager"]),
+  role: z.enum(["admin", "staff", "cashier"]),
   allowedPages: z.array(z.string()),
   fullName: z.string().min(3, "Full name must be at least 3 characters"),
 });

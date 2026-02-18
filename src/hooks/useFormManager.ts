@@ -7,7 +7,7 @@ interface UseFormManagerProps<T> {
   schema?: ZodSchema<T>; // Pass the Zod schema as an optional prop
 }
 
-const useFormManager = <T extends Record<string, unknown>>({
+const useFormManager = <T extends object>({
   initialData,
   schema,
 }: UseFormManagerProps<T>) => {
@@ -46,7 +46,7 @@ const useFormManager = <T extends Record<string, unknown>>({
       return {
         ...prev,
         [name]: finalValue,
-      };
+      } as T;
     });
 
     // Optional: Clear error for this field as the user types
@@ -61,7 +61,7 @@ const useFormManager = <T extends Record<string, unknown>>({
   };
 
   const handleToggle = (name: string) => (value: boolean | string) => {
-    setFormData((prev) => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }) as T);
   };
 
   const handleFieldChange = ({
@@ -75,12 +75,12 @@ const useFormManager = <T extends Record<string, unknown>>({
       if (name.includes(".")) {
         return updateDeep(prev, name.split("."), value) as T;
       }
-      return { ...prev, [name]: value };
+      return { ...prev, [name]: value } as T;
     });
   };
 
   const handleChangeMultiInputs = (data: Record<string, unknown>) => {
-    setFormData((prev) => ({ ...prev, ...data }));
+    setFormData((prev) => ({ ...prev, ...data }) as T);
   };
 
   return {

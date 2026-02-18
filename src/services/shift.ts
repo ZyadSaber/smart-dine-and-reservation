@@ -84,7 +84,7 @@ export async function deleteShift(id: string) {
 export async function getStaffUsers() {
   try {
     await connectDB();
-    const users = await Users.find({ role: "staff" });
+    const users = await Users.find({ role: "cashier" });
     return JSON.parse(JSON.stringify(users));
   } catch (error) {
     console.error("Error fetching users:", error);

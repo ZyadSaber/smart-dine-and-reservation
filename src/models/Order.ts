@@ -7,6 +7,10 @@ export type OrderType = "Dine-in" | "Takeaway" | "Delivery";
 
 export interface IOrderItem {
   itemId: mongoose.Types.ObjectId;
+  name: {
+    en: string;
+    ar: string;
+  };
   quantity: number;
   price: number;
   totalPrice: number;
@@ -41,6 +45,10 @@ const OrderSchema: Schema = new Schema(
           type: Schema.Types.ObjectId,
           ref: "MenuItem",
           required: true,
+        },
+        name: {
+          en: { type: String, required: true },
+          ar: { type: String, required: true },
         },
         quantity: { type: Number, required: true },
         price: { type: Number, required: true },

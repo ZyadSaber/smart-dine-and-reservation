@@ -8,7 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/com
 import { Lock, ArrowLeft } from "lucide-react"
 import { Link, useRouter } from "@/i18n/routing"
 import { motion } from "framer-motion"
-import Image from "next/image"
+import Logo from "@/components/logo"
 
 import { login } from "@/services/user"
 import { toast } from "sonner"
@@ -63,15 +63,7 @@ export default function LoginPage() {
 
                 <Card className="border-none shadow-2xl rounded-3xl overflow-hidden">
                     <CardHeader className="text-center pt-10">
-                        <div className="rounded-3xl mx-auto mb-6 relative w-40 h-40 overflow-hidden flex items-center justify-center">
-                            <Image
-                                src="/logo.png"
-                                alt="Smart Dine Logo"
-                                fill
-                                className="object-contain"
-                                priority
-                            />
-                        </div>
+                        <Logo className="w-24 h-24 mx-auto mb-6 rounded-3xl" />
                         <CardTitle className="text-3xl font-black tracking-tight">{t("login")}</CardTitle>
                         <CardDescription>Access the SmartDine Management Suite</CardDescription>
                     </CardHeader>

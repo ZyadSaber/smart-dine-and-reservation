@@ -24,7 +24,8 @@
     "notes": "ملاحظات",
     "back": "رجوع",
     "action": "الإجراءات",
-    "status": "الحالة"
+    "status": "الحالة",
+    "currency": "ج.م"
   },
   "POS": {
     "tables": "الطاولات",
@@ -209,5 +210,33 @@
     "goHome": "العودة للرئيسية",
     "errorDetails": "تفاصيل الخطأ",
     "retry": "إعادة المحاولة"
+  },
+  "CustomerOrder": {
+    "orderReceived": "تم استلام الطلب!",
+    "orderReceivedDesc": "تم إرسال طلبك للطاولة {tableNumber} إلى المطبخ. استرخ واستمتع بتجربتك!",
+    "orderMore": "طلب المزيد",
+    "welcomeTable": "أهلاً بك على طاولتك",
+    "browseMenu": "تصفح قائمتنا واطلب مباشرة من هاتفك.",
+    "searchDishes": "بحث عن أطباق...",
+    "allItems": "كل الأصناف",
+    "noItemsFound": "لم يتم العثور على أصناف",
+    "noItemsDesc": "حاول البحث عن شيء آخر أو استكشف فئات أخرى.",
+    "addToOrder": "إضافة للطلب",
+    "reviewOrder": "مراجعة طلبك",
+    "viewOrder": "عرض طلبك",
+    "yourOrder": "طلبك",
+    "confirmedOrder": "الطلب المؤكد",
+    "newAdditions": "إضافات جديدة",
+    "previousBalance": "الرصيد السابق",
+    "newItems": "أصناف جديدة",
+    "grandTotal": "الإجمالي الكلي",
+    "confirmNewItems": "تأكيد الأصناف الجديدة",
+    "addMoreItems": "إضافة المزيد من الأصناف",
+    "orderSuccess": "تم إرسال الطلب بنجاح!",
+    "orderError": "فشل في إرسال الطلب",
+    "table": "طاولة",
+    "unknownItem": "صنف غير معروف",
+    "noDescription": "لا يوجد وصف متاح",
+    "currency": "ج.م"
   }
 }

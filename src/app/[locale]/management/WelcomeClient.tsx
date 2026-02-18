@@ -5,7 +5,6 @@ import { Link } from "@/i18n/routing";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import {
     ArrowRight,
-    Sparkles,
     LayoutDashboard,
     Utensils,
     Package,
@@ -71,16 +70,8 @@ export default function WelcomeClient({ username, items }: WelcomeClientProps) {
             >
                 <div className="relative mb-6">
                     <Logo
-                        width="w-24"
-                        height="h-24"
+                        className="w-30 h-30"
                     />
-                    <motion.div
-                        animate={{ scale: [1, 1.2, 1], rotate: [0, 10, -10, 0] }}
-                        transition={{ repeat: Infinity, duration: 4 }}
-                        className="absolute -top-2 -right-2 text-sky-300"
-                    >
-                        <Sparkles className="w-6 h-6" />
-                    </motion.div>
                 </div>
 
                 <h1 className="text-4xl md:text-6xl font-black tracking-tight mb-4 text-balance">

@@ -15,6 +15,7 @@ import AddOrEditTable from "./AddOrEditTable";
 import DeleteDialog from "@/components/shared/delete-dialog";
 import { deleteTable } from "@/services/table";
 import { useTranslations } from "next-intl";
+import TableQrCode from "./TableQrCode";
 
 interface TableViewProps {
     tables: TableData[];
@@ -67,6 +68,7 @@ const TableView = ({ tables }: TableViewProps) => {
                                 </TableCell>
                                 <TableCell className="text-start">
                                     <div className="flex justify-start gap-2">
+                                        <TableQrCode tableId={table._id || ""} tableNumber={table.number} />
                                         <AddOrEditTable currentTable={table} />
                                         <DeleteDialog id={table?._id || ""} deleteAction={deleteTable} />
                                     </div>

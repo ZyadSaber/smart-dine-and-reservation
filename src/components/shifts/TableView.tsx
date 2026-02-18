@@ -26,20 +26,21 @@ interface TableViewProps {
 const TableView = ({ shifts, users }: TableViewProps) => {
     const t = useTranslations("Shift");
     const tPOS = useTranslations("POS");
+    const tCommon = useTranslations("Common")
 
     return (
         <div className="rounded-xl border p-3 bg-card shadow-sm overflow-hidden overflow-x-auto">
             <Table>
                 <TableHeader>
                     <TableRow>
-                        <TableHead>{t("staff")}</TableHead>
-                        <TableHead>{t("startTime")}</TableHead>
-                        <TableHead>{t("endTime")}</TableHead>
-                        <TableHead>{t("openingBalance")}</TableHead>
-                        <TableHead>{t("totalSales")}</TableHead>
-                        <TableHead>{t("actualCash")}</TableHead>
-                        <TableHead>{t("status")}</TableHead>
-                        <TableHead className="text-right">{t("actions")}</TableHead>
+                        <TableHead className="text-start">{t("staff")}</TableHead>
+                        <TableHead className="text-start">{t("startTime")}</TableHead>
+                        <TableHead className="text-start">{t("endTime")}</TableHead>
+                        <TableHead className="text-start">{t("openingBalance")}</TableHead>
+                        <TableHead className="text-start">{t("totalSales")}</TableHead>
+                        <TableHead className="text-start">{t("actualCash")}</TableHead>
+                        <TableHead className="text-start">{t("status")}</TableHead>
+                        <TableHead className="text-start w-[100px]">{tCommon("action")}</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>

@@ -5,7 +5,8 @@ export interface LogInProps {
 
 export interface UserData extends LogInProps {
   _id?: string;
-  role: "admin" | "staff" | "manager";
+  role: "admin" | "staff" | "cashier";
   allowedPages: string[];
   fullName: string;
+  shiftId?: string;
 }

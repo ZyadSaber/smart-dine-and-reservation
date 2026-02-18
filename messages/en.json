@@ -24,7 +24,8 @@
     "notes": "Notes",
     "back": "Back",
     "action": "Action",
-    "status": "Status"
+    "status": "Status",
+    "currency": "EGP"
   },
   "POS": {
     "tables": "Tables",
@@ -209,5 +210,33 @@
     "goHome": "Go Back Home",
     "errorDetails": "Error Details",
     "retry": "Try Again"
+  },
+  "CustomerOrder": {
+    "orderReceived": "Order Received!",
+    "orderReceivedDesc": "Your order for Table {tableNumber} has been sent to the kitchen. Relax and enjoy your experience!",
+    "orderMore": "Order More",
+    "welcomeTable": "Welcome to Your Table",
+    "browseMenu": "Browse our menu and order directly from your phone.",
+    "searchDishes": "Search dishes...",
+    "allItems": "All Items",
+    "noItemsFound": "No items found",
+    "noItemsDesc": "Try searching for something else or explore other categories.",
+    "addToOrder": "Add to Order",
+    "reviewOrder": "Review Your Order",
+    "viewOrder": "View Your Order",
+    "yourOrder": "Your Order",
+    "confirmedOrder": "Confirmed Order",
+    "newAdditions": "New Additions",
+    "previousBalance": "Previous Balance",
+    "newItems": "New Items",
+    "grandTotal": "Grand Total",
+    "confirmNewItems": "Confirm New Items",
+    "addMoreItems": "Add More Items",
+    "orderSuccess": "Order submitted successfully!",
+    "orderError": "Failed to submit order",
+    "table": "Table",
+    "unknownItem": "Unknown Item",
+    "noDescription": "No description available",
+    "currency": "EGP"
   }
 }

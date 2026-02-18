@@ -33,7 +33,7 @@ const AddOrEditUser = ({ currentUser }: AddOrEditUserProps) => {
 
     const editingUser = !!currentUser;
 
-    const { formData, handleChange, handleFieldChange, resetForm, validate, errors } = useFormManager({
+    const { formData, handleChange, handleFieldChange, resetForm, validate, errors } = useFormManager<UserData>({
         initialData: {
             username: "",
             password: "",
@@ -44,8 +44,6 @@ const AddOrEditUser = ({ currentUser }: AddOrEditUserProps) => {
         },
         schema: !!editingUser ? userSchema : createUserSchema
     })
-
-    console.log(errors);
 
     const handleSubmit = () => {
         if (!validate()) return
@@ -145,8 +143,8 @@ const AddOrEditUser = ({ currentUser }: AddOrEditUserProps) => {
                     onValueChange={(value) => handleFieldChange({ name: "role", value })}
                     options={[
                         { key: "staff", label: "Staff" },
+                        { key: "cashier", label: "Cashier" },
                         { key: "admin", label: "Admin" },
-                        { key: "manager", label: "Manager" },
                     ]}
                     error={errors?.role}
                 />
@@ -154,7 +152,10 @@ const AddOrEditUser = ({ currentUser }: AddOrEditUserProps) => {
                 <div className="space-y-2">
                     <label className="text-sm font-medium">Allowed Pages</label>
                     <div className="grid grid-cols-2 gap-2 border rounded-md p-3">
-                        {availablePages.map((page, index) => (
+                        {availablePages.filter(page => {
+                            if (page.href === "/management/pos" && !["staff", "cashier"].includes(formData.role)) return false;
+                            return true;
+                        }).map((page, index) => (
                             <LabeledCheckBox
                                 key={index}
                                 label={page.label}

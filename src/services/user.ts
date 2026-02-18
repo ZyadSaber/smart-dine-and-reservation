@@ -28,7 +28,7 @@ export async function login(data: LogInProps) {
       return { error: "Invalid username or password" };
     }
 
-    let payload = {
+    const payload = {
       _id: user._id,
       username: user.username,
       role: user.role,
@@ -37,16 +37,14 @@ export async function login(data: LogInProps) {
       shiftId: "",
     };
 
-    if (user.role === "staff") {
-      const openShift = await Shift.findOne({ status: "Open" });
-      if (!openShift) {
-        return { error: "No open shift found" };
+    // For staff and cashier, try to find an active shift
+    if (user.role === "staff" || user.role === "cashier") {
+      const openShift = await Shift.findOne({ status: "Open" }).sort({
+        startTime: -1,
+      });
+      if (openShift) {
+        payload.shiftId = openShift._id.toString();
       }
-      payload = {
-        ...payload,
-        shiftId: openShift._id,
-        role: user.role, // Ensure role is explicitly included/maintained
-      };
     }
 
     const token = await signToken(payload);

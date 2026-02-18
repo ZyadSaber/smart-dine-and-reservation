@@ -16,6 +16,17 @@ export async function getTables() {
   }
 }
 
+export async function getTable(id: string) {
+  try {
+    await connectDB();
+    const table = await Table.findById(id);
+    return JSON.parse(JSON.stringify(table));
+  } catch (error) {
+    console.error("Error fetching table:", error);
+    return null;
+  }
+}
+
 export async function createTable(data: TableData) {
   try {
     await connectDB();

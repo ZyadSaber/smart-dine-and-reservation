@@ -3,9 +3,9 @@
 import { useTranslations } from "next-intl"
 import { Link } from "@/i18n/routing"
 import { Button } from "@/components/ui/button"
-import { UtensilsCrossed } from "lucide-react"
 import { ModeToggle } from "@/components/mode-toggle"
 import { LanguageSwitcher } from "@/components/LanguageSwitcher"
+import Logo from "@/components/logo"
 
 export default function CustomerLayout({
     children,
@@ -21,12 +21,16 @@ export default function CustomerLayout({
             <nav className="fixed top-0 w-full z-50 bg-background/80 backdrop-blur-lg border-b border-border/40">
                 <div className="container mx-auto px-4 h-18 flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                        <div className="p-2.5 bg-primary rounded-xl shadow-lg shadow-primary/20 rotate-3 transition-transform hover:rotate-0">
-                            <UtensilsCrossed className="w-6 h-6 text-primary-foreground" />
+                        <div className="p-2 bg-primary rounded-xl shadow-lg shadow-primary/20 rotate-3 transition-transform hover:rotate-0">
+                            <Logo className="w-6 h-6 invert brightness-0" />
                         </div>
                         <div className="flex flex-col text-foreground">
-                            <span className="text-xl font-black tracking-tight leading-none">{commonT("title")}</span>
-                            <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold mt-1">Gourmet Diner & Cafe</span>
+                            <span className="text-xl font-black tracking-tight leading-none">
+                                {process.env.NEXT_PUBLIC_APP_TITLE || commonT("title")}
+                            </span>
+                            <span className="text-[10px] uppercase tracking-widest text-muted-foreground font-bold mt-1">
+                                {process.env.NEXT_PUBLIC_APP_SUBTITLE || "Gourmet Diner & Cafe"}
+                            </span>
                         </div>
                     </div>
                     <div className="flex items-center gap-4">
@@ -48,9 +52,11 @@ export default function CustomerLayout({
                         <div className="md:col-span-2">
                             <div className="flex items-center gap-2 mb-4">
                                 <div className="p-1.5 bg-primary rounded-lg">
-                                    <UtensilsCrossed className="w-4 h-4 text-primary-foreground" />
+                                    <Logo className="w-5 h-5 invert brightness-0" />
                                 </div>
-                                <span className="text-lg font-black tracking-tight text-foreground">{commonT("title")}</span>
+                                <span className="text-lg font-black tracking-tight text-foreground">
+                                    {process.env.NEXT_PUBLIC_APP_TITLE || commonT("title")}
+                                </span>
                             </div>
                             <p className="text-muted-foreground max-w-sm mb-4 text-sm leading-relaxed">
                                 A premier culinary destination dedicated to artisanal coffee and fine dining.

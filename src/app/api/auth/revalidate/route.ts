@@ -3,6 +3,7 @@ import connectDB from "@/lib/mongodb";
 import User from "@/models/User";
 import { verifyToken, signToken } from "@/lib/auth-utils";
 import { cookies } from "next/headers";
+import Shift from "@/models/Shift";
 import { UserData } from "@/types/users";
 
 export async function GET() {
@@ -26,7 +27,23 @@ export async function GET() {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
-    const userData: UserData = JSON.parse(JSON.stringify(user));
+    interface ExtendedUserData extends UserData {
+      exp?: number;
+    }
+
+    const userData = JSON.parse(
+      JSON.stringify(user),
+    ) as unknown as ExtendedUserData;
+
+    // For staff and cashier, sync the latest active shift
+    if (userData.role === "staff" || userData.role === "cashier") {
+      const openShift = await Shift.findOne({ status: "Open" }).sort({
+        startTime: -1,
+      });
+      userData.shiftId = openShift ? openShift._id.toString() : "";
+    } else {
+      userData.shiftId = "";
+    }
 
     // Check if permissions/data have changed
     const permissionsChanged =
@@ -34,8 +51,10 @@ export async function GET() {
       JSON.stringify(userData.allowedPages);
     const fullNameChanged = payload.fullName !== userData.fullName;
     const roleChanged = payload.role !== userData.role;
+    const shiftChanged =
+      (payload as unknown as ExtendedUserData).shiftId !== userData.shiftId;
 
-    if (permissionsChanged || fullNameChanged || roleChanged) {
+    if (permissionsChanged || fullNameChanged || roleChanged || shiftChanged) {
       // Update token with fresh data but KEEP original expiry
       const newToken = await signToken(userData, payload.exp);
 

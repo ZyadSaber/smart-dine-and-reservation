@@ -1,5 +1,4 @@
-import { getTranslations } from "next-intl/server";
-import { UtensilsCrossed, TriangleAlert } from "lucide-react";
+import { TriangleAlert } from "lucide-react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { MenuManagementItem } from "@/types/menu";
@@ -8,7 +7,6 @@ import isArrayHasData from "@/lib/isArrayHasData";
 
 export default async function PublicMenuPage() {
     const items = await getItems() || [];
-    const tInv = await getTranslations("Menu");
     return (
         <div className="container mx-auto px-4 pt-32 pb-20">
             <div className="text-center mb-12">
@@ -26,14 +24,11 @@ export default async function PublicMenuPage() {
             ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     {items.map((item: MenuManagementItem) => (
-                        <Card key={item._id.toString()} className="group overflow-hidden border-none shadow-xl rounded-3xl transition-transform hover:-translate-y-2">
-                            <div className="h-48 bg-linear-to-br from-primary/20 to-primary/5 relative">
-                                <Badge className="absolute top-4 right-4 bg-background/80 backdrop-blur-md text-foreground border-none">
+                        <Card key={item._id.toString()} className="group overflow-hidden border-none shadow-xl rounded-3xl transition-transform hover:-translate-y-2 p-2">
+                            <CardContent className="p-6">
+                                <Badge variant="secondary" className="mb-4 bg-primary/10 text-primary border-none">
                                     {item.category.name.en}
                                 </Badge>
-                                <UtensilsCrossed className="w-12 h-12 absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 text-primary/30 group-hover:scale-110 transition-transform" />
-                            </div>
-                            <CardContent className="p-6">
                                 <div className="flex justify-between items-start mb-2">
                                     <h3 className="text-xl font-bold">{item.name.en}</h3>
                                     <span className="text-lg font-black text-primary">EGP {item.price}</span>
