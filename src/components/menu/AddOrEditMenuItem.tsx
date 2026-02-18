@@ -78,7 +78,7 @@ const AddOrEditMenuItem = ({ currentItem, categoriesList }: AddOrEditMenuItemPro
                     </Button>
                 ) : (
                     <Button>
-                        <Plus className="w-4 h-4" /> Add User
+                        <Plus className="w-4 h-4" /> {tMenu("addItem")}
                     </Button>
                 )}
             </DialogTrigger>

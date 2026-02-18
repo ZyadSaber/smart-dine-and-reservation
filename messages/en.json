@@ -22,7 +22,9 @@
     "welcomeBack": "Welcome Back",
     "shifts": "Shifts",
     "notes": "Notes",
-    "back": "Back"
+    "back": "Back",
+    "action": "Action",
+    "status": "Status"
   },
   "POS": {
     "tables": "Tables",
@@ -40,7 +42,11 @@
     "instapay": "InstaPay",
     "e-wallet": "E-wallet",
     "card": "Card",
-    "closeTable": "Close Table"
+    "closeTable": "Close Table",
+    "addTable": "Add Table",
+    "editTable": "Edit Table",
+    "tableNumber": "Table Number",
+    "capacity": "Capacity"
   },
   "Shift": {
     "title": "Shift Management",
@@ -80,7 +86,8 @@
     "descriptionEn": "Description (English)",
     "descriptionAr": "Description (Arabic)",
     "price": "Price",
-    "isAvailable": "Is Available"
+    "isAvailable": "Is Available",
+    "addItem": "Add Item"
   },
   "Landing": {
     "welcome": "Welcome to SmartDine",

@@ -18,10 +18,13 @@
     "success": "تم بنجاح",
     "error": "حدث خطأ",
     "users": "المستخدمين",
+    "tables": "الطاولات",
     "welcomeBack": "مرحبا بعودتك",
     "shifts": "الورديات",
     "notes": "ملاحظات",
-    "back": "رجوع"
+    "back": "رجوع",
+    "action": "الإجراءات",
+    "status": "الحالة"
   },
   "POS": {
     "tables": "الطاولات",
@@ -39,7 +42,11 @@
     "instapay": "InstaPay",
     "e-wallet": "محفظة الكترونية",
     "card": "بطاقة",
-    "closeTable": "اغلاق طاولة"
+    "closeTable": "اغلاق طاولة",
+    "addTable": "إضافة طاولة",
+    "editTable": "تعديل طاولة",
+    "tableNumber": "رقم الطاولة",
+    "capacity": "الكفاءة"
   },
   "Shift": {
     "title": "إدارة الورديات",
@@ -69,7 +76,7 @@
   },
   "Menu": {
     "menuItems": "إدارة القائمـة",
-    "itemName": "اسم الصنب",
+    "itemName": "اسم الصنف",
     "category": "الفئة",
     "costPrice": "سعر التكلفة",
     "salePrice": "سعر البيع",
@@ -79,7 +86,8 @@
     "descriptionEn": "الوصف (انجليزي)",
     "descriptionAr": "الوصف (عربي)",
     "price": "السعر",
-    "isAvailable": "متاح"
+    "isAvailable": "متاح",
+    "addItem": "اضافة صنف"
   },
   "Landing": {
     "welcome": "أهلاً بكم في سمارت داين",

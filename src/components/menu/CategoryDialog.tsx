@@ -135,7 +135,7 @@ const CategoryDialog = ({ categories }: CategoryDialogProps) => {
         <Dialog open={visible} onOpenChange={handleStateChange}>
             <DialogTrigger asChild>
                 <Button variant="outline" className="gap-2">
-                    <List className="w-4 h-4" /> Categories
+                    <List className="w-4 h-4" /> {tMenu("category")}
                 </Button>
             </DialogTrigger>
             <DialogContent className="max-w-[700px]">

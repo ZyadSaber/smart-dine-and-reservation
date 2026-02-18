@@ -14,6 +14,7 @@ import AddOrEditMenuItem from "./AddOrEditMenuItem";
 import { MenuManagementItem } from "@/types/menu";
 import DeleteDialog from "@/components/shared/delete-dialog";
 import { deleteItem } from "@/services/menu";
+import isArrayHasData from "@/lib/isArrayHasData";
 
 interface TableViewProps {
     items: MenuManagementItem[];
@@ -22,21 +23,22 @@ interface TableViewProps {
 
 const TableView = ({ items, categoriesList }: TableViewProps) => {
     const tInv = useTranslations("Menu");
+    const tCommon = useTranslations("Common");
 
     return (
         <div className="p-3 rounded-xl border bg-card shadow-sm overflow-hidden">
             <Table>
                 <TableHeader>
                     <TableRow>
-                        <TableHead>{tInv("itemName")}</TableHead>
-                        <TableHead>{tInv("category")}</TableHead>
+                        <TableHead className="text-start">{tInv("itemName")}</TableHead>
+                        <TableHead className="text-start">{tInv("category")}</TableHead>
                         <TableHead className="text-right">{tInv("price")}</TableHead>
-                        <TableHead className="text-center">Status</TableHead>
-                        <TableHead className="text-end">Action</TableHead>
+                        <TableHead className="text-center">{tCommon("status")}</TableHead>
+                        <TableHead className="text-end">{tCommon("action")}</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
-                    {items.length === 0 ? (
+                    {!isArrayHasData(items) ? (
                         <TableRow>
                             <TableCell colSpan={5} className="h-24 text-center text-muted-foreground">
                                 No items found. Add your first menu item!

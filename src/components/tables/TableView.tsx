@@ -14,12 +14,16 @@ import isArrayHasData from "@/lib/isArrayHasData";
 import AddOrEditTable from "./AddOrEditTable";
 import DeleteDialog from "@/components/shared/delete-dialog";
 import { deleteTable } from "@/services/table";
+import { useTranslations } from "next-intl";
 
 interface TableViewProps {
     tables: TableData[];
 }
 
 const TableView = ({ tables }: TableViewProps) => {
+    const t = useTranslations("POS");
+    const tCommon = useTranslations("Common");
+
     const getStatusVariant = (status: string) => {
         switch (status) {
             case "Available":
@@ -38,10 +42,10 @@ const TableView = ({ tables }: TableViewProps) => {
             <Table>
                 <TableHeader>
                     <TableRow>
-                        <TableHead>Table Number</TableHead>
-                        <TableHead>Capacity</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead className="text-right">Actions</TableHead>
+                        <TableHead className="text-start">{t("tableNumber")}</TableHead>
+                        <TableHead className="text-start">{t("capacity")}</TableHead>
+                        <TableHead className="text-start">{tCommon("status")}</TableHead>
+                        <TableHead className="text-start w-[100px]">{tCommon("action")}</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>

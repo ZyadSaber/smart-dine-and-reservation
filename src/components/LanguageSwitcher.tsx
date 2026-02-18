@@ -1,9 +1,8 @@
 "use client"
 
-import { useLocale, useTranslations } from "next-intl"
-import { useRouter, usePathname } from "next/navigation"
+import { useLocale } from "next-intl"
+import { useRouter, usePathname } from "@/i18n/routing"
 import { Button } from "@/components/ui/button"
-import { routing } from "@/i18n/routing"
 
 export function LanguageSwitcher() {
     const locale = useLocale()
@@ -12,8 +11,7 @@ export function LanguageSwitcher() {
 
     const toggleLocale = () => {
         const nextLocale = locale === "en" ? "ar" : "en"
-        const newPathname = pathname.replace(`/${locale}`, `/${nextLocale}`)
-        router.push(newPathname)
+        router.replace(pathname, { locale: nextLocale })
     }
 
     return (
