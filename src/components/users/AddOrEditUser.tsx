@@ -83,7 +83,7 @@ const AddOrEditUser = ({ currentUser }: AddOrEditUserProps) => {
                     </Button>
                 )}
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[500px]">
+            <DialogContent className="sm:max-w-125">
                 <DialogHeader>
                     <DialogTitle>{editingUser ? "Edit User" : "Add New User"}</DialogTitle>
                 </DialogHeader>
@@ -157,6 +157,7 @@ const AddOrEditUser = ({ currentUser }: AddOrEditUserProps) => {
                             return true;
                         }).map((page, index) => (
                             <LabeledCheckBox
+                                hidePlaceHolder
                                 key={index}
                                 label={page.label}
                                 name={page.label}

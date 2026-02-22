@@ -46,17 +46,28 @@ export async function createTable(data: TableData) {
   }
 }
 
-export async function updateTable(data: TableData) {
+export async function updateTable(
+  data: Omit<TableData, "reservationId"> & { reservationId?: string | null },
+) {
   try {
     await connectDB();
-    const { _id, number, capacity, status } = data;
+    const { _id, number, capacity, status, reservationId } = data;
 
-    await Table.findByIdAndUpdate(
-      _id,
-      { number, capacity, status },
-      { new: true },
-    );
+    const updateData: Record<string, unknown> = { number, capacity, status };
+    if (reservationId !== undefined) {
+      updateData.reservationId = reservationId;
+    }
+
+    if (reservationId === null) {
+      updateData.$unset = { reservationId: "" };
+      delete updateData.reservationId;
+    }
+
+    await Table.findByIdAndUpdate(_id, updateData, { new: true });
     revalidatePath("/management/tables");
+    revalidatePath("/management/pos");
+    revalidatePath("/ar/management/pos");
+    revalidatePath("/en/management/pos");
     return { success: true };
   } catch (error) {
     console.error("Error updating table:", error);

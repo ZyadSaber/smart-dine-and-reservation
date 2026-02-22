@@ -93,9 +93,9 @@ const CloseTable = ({ tables }: CloseTableProps) => {
             if (res.success) {
                 handleClose();
                 resetForm();
-                toast.success("Table closed successfully");
+                toast.success(tPos("tableClosed"));
             } else {
-                toast.error("Failed to close table");
+                toast.error(tPos("failedToCloseTable"));
             }
         });
     }
@@ -107,12 +107,10 @@ const CloseTable = ({ tables }: CloseTableProps) => {
                     {tPos("closeTable")}
                 </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[500px]">
+            <DialogContent className="sm:max-w-125 max-h-screen overflow-y-auto">
                 <DialogHeader>
                     <DialogTitle>
-                        <div className="w-full flex justify-between items-center pr-5">
-                            Close Table
-                        </div>
+                        {tPos("closeTable")}
                     </DialogTitle>
                 </DialogHeader>
 
@@ -155,10 +153,10 @@ const CloseTable = ({ tables }: CloseTableProps) => {
                     >
                         <LoadingOverlay loading={isPending}>
                             <div className="w-full flex flex-wrap gap-5" >
-                                <div className="w-full">
+                                <div className="w-full max-h-70 overflow-y-auto">
                                     {
                                         items.map((item) => (
-                                            <div key={item.itemId} className="flex items-center justify-between p-3 rounded-2xl bg-accent/30 border border-white/5 hover:bg-accent/40 transition-colors">
+                                            <div key={item.itemId} className="flex items-center justify-between p-3 m-2 rounded-2xl bg-accent/30 border border-white/5 hover:bg-accent/40 transition-colors">
                                                 <div className="flex-1">
                                                     <h4 className="font-bold text-sm tracking-tight">{getLocalizedValue(item.name, locale)}</h4>
                                                     <span className="text-xs font-black mt-1 block">{item.quantity} x {item.price.toFixed(2)}</span>

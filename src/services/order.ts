@@ -6,6 +6,7 @@ import Shift from "@/models/Shift";
 import mongoose from "mongoose";
 import { revalidatePath } from "next/cache";
 import Table from "@/models/Table";
+import "@/models/Reservation";
 
 import { CreateOrderData, OrderItemData } from "@/types/pos";
 import { getAuthSession } from "@/lib/auth-utils";
@@ -15,10 +16,17 @@ import MenuItem, { IMenuItem } from "@/models/MenuItem";
 export async function getRunningTables() {
   try {
     await connectDB();
-    const tables = await Table.find().sort({
-      number: 1,
-      status: 1,
-    });
+    const tables = await Table.find()
+      .sort({
+        number: 1,
+        status: 1,
+      })
+      .populate({
+        path: "reservationId",
+        model: "Reservation",
+        strictPopulate: false,
+        populate: { path: "menuItems.itemId", model: "MenuItem" },
+      });
 
     const parsedData = JSON.parse(JSON.stringify(tables)) as TableData[];
 

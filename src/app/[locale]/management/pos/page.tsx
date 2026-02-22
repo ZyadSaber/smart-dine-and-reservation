@@ -4,6 +4,7 @@ import { getRunningTables } from "@/services/order"
 import { getAuthSession } from "@/lib/auth-utils"
 import { getOpenShifts } from "@/services/shift";
 import CloseTable from "@/components/pos/CloseTableView";
+import { getReservations } from "@/services/reservation";
 
 export default async function POSPage() {
     const t = await getTranslations("POS");
@@ -13,16 +14,14 @@ export default async function POSPage() {
     } = await getRunningTables()
     const currentSession = await getAuthSession()
 
-    if (currentSession?.role === "admin") {
-        return <div className="p-10 text-center font-bold text-rose-500">Access Restricted: POS is only available for Staff and Cashier users.</div>
-    }
-
     const openShifts = await getOpenShifts();
     const hasActiveShift = currentSession?.shiftId || openShifts.length > 0;
 
     if (!hasActiveShift) {
         throw new Error(t("openShiftFirst"))
     }
+
+    const confirmedReservations = await getReservations({ status: 'Confirmed' });
 
     return (
         <div className="space-y-6">
@@ -34,7 +33,10 @@ export default async function POSPage() {
                     {currentSession?.role === "cashier" && (
                         <CloseTable tables={occupiedTables || []} />
                     )}
-                    <Reservations />
+                    <Reservations
+                        confirmedReservations={confirmedReservations}
+                        tables={allTables || []}
+                    />
                 </div>
             </div>
 

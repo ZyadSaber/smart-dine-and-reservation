@@ -25,7 +25,13 @@
     "back": "رجوع",
     "action": "الإجراءات",
     "status": "الحالة",
-    "currency": "ج.م"
+    "currency": "ج.م",
+    "noData": "لا توجد بيانات",
+    "deletedSuccessfully": "تم الحذف بنجاح",
+    "deleteError": "فشل في الحذف",
+    "deleteTitle": "حذف سجل؟",
+    "deleteDescription": "هل انت متاكد من حذف هذا السجل؟",
+    "deleteAction": "حذف"
   },
   "POS": {
     "tables": "الطاولات",
@@ -48,7 +54,11 @@
     "editTable": "تعديل طاولة",
     "tableNumber": "رقم الطاولة",
     "capacity": "الكفاءة",
-    "discount": "الخصم"
+    "discount": "الخصم",
+    "tableClosed": "تم إغلاق الطاولة بنجاح",
+    "failedToCloseTable": "فشل في إغلاق الطاولة",
+    "orderCreatedSuccessfully": "تم إنشاء الطلب بنجاح",
+    "orderCreatedError": "فشل في إنشاء الطلب"
   },
   "Shift": {
     "title": "إدارة الورديات",
@@ -103,6 +113,8 @@
   },
   "Reservation": {
     "title": "تفاصيل الحجز",
+    "reservations": "الحجوزات",
+    "subtitle": "إدارة الحجوزات",
     "customerName": "الاسم",
     "customerPhone": "رقم الهاتف",
     "partySize": "عدد الأشخاص",
@@ -113,7 +125,29 @@
     "barcodeInstruction": "يرجى إبراز هذا الرمز عند الوصول.",
     "backToHome": "العودة للرئيسية",
     "confirm": "تأكيد الحجز",
-    "guests": "شخص"
+    "guests": "شخص",
+    "source": "المصدر",
+    "timeRange": "النطاق الزمني",
+    "startTime": "وقت البدء",
+    "endTime": "وقت الانتهاء",
+    "Confirmed": "مؤكد",
+    "Completed": "مكتمل",
+    "Cancelled": "ملغي",
+    "Pending": "قيد الانتظار",
+    "add": "إضافة حجز",
+    "edit": "تعديل حجز",
+    "walkIn": "حضور شخصي",
+    "callCenter": "اتصال هاتفي",
+    "website": "الموقع",
+    "update": "تحديث الحجز",
+    "currentConfirmed": "الحجوزات المؤكدة الحالية",
+    "chooseTableFor": "اختر طاولة لـ",
+    "select": "اختيار",
+    "tableReservedSuccess": "تم حجز الطاولة {tableNumber} بنجاح!",
+    "reservationCancelled": "تم الغاء الحجز بنجاح",
+    "reservationCancelledError": "فشل في الغاء الحجز",
+    "reservationCompleteError": "فشل في اتمام الحجز",
+    "reservationCompleteSuccess": "تم اتمام الحجز بنجاح"
   },
   "About": {
     "title": "قصتنا",

@@ -18,7 +18,7 @@ const TableGrid = ({ tables }: { tables: TableData[] }) => {
                     key={table._id}
                     table={table}
                 >
-                    <CardContent className="p-4 flex flex-col items-center justify-center min-h-[120px] gap-2">
+                    <CardContent className="p-4 flex flex-col items-center justify-center min-h-30 gap-2">
                         <div className="text-2xl font-black text-foreground/80">
                             {table.number}
                         </div>
@@ -39,6 +39,13 @@ const TableGrid = ({ tables }: { tables: TableData[] }) => {
                         >
                             {t(table.status.toLowerCase())}
                         </Badge>
+
+                        {table.status === 'Reserved' && table.reservationId && (
+                            <div className="flex flex-col items-center text-[10px] text-muted-foreground bg-accent/30 rounded-md p-1 w-full text-center mt-1">
+                                <span className="font-semibold text-foreground/80 line-clamp-1">{table.reservationId.customerName}</span>
+                                <span>{table.reservationId.customerPhone}</span>
+                            </div>
+                        )}
                     </CardContent>
 
                     {/* Visual indicator bar at the bottom */}

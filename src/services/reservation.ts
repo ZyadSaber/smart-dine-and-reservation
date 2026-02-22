@@ -2,8 +2,64 @@
 
 import connectDB from "@/lib/mongodb";
 import Reservation from "@/models/Reservation";
+import Table from "@/models/Table";
+import mongoose from "mongoose";
 import { revalidatePath } from "next/cache";
 import { ReservationData } from "@/types/reservation";
+
+export async function cancelTableReservation(
+  tableId: string,
+  reservationId: string,
+) {
+  try {
+    await connectDB();
+    await Reservation.findByIdAndUpdate(reservationId, { status: "Cancelled" });
+    await Table.findByIdAndUpdate(tableId, {
+      status: "Available",
+      $unset: { reservationId: "" },
+    });
+    revalidatePath("/management/pos");
+    revalidatePath("/ar/management/pos");
+    revalidatePath("/en/management/pos");
+    return { success: true };
+  } catch (error) {
+    console.error("Error cancelling reservation:", error);
+    return { success: false, error: "Failed to cancel reservation" };
+  }
+}
+
+export async function completeTableReservation(
+  tableId: string,
+  reservationId: string,
+) {
+  try {
+    await connectDB();
+    const session = await mongoose.startSession();
+    session.startTransaction();
+
+    await Reservation.findByIdAndUpdate(
+      reservationId,
+      { status: "Completed" },
+      { session },
+    );
+    await Table.findByIdAndUpdate(
+      tableId,
+      { status: "Occupied", $unset: { reservationId: "" } },
+      { session },
+    );
+
+    await session.commitTransaction();
+    session.endSession();
+
+    revalidatePath("/management/pos");
+    revalidatePath("/ar/management/pos");
+    revalidatePath("/en/management/pos");
+    return { success: true };
+  } catch (error) {
+    console.error("Error completing reservation:", error);
+    return { success: false, error: "Failed to complete reservation" };
+  }
+}
 
 export async function createReservation(data: {
   customerName: string;
@@ -45,10 +101,10 @@ export async function createReservation(data: {
   };
 }
 
-export async function getReservations() {
+export async function getReservations(query: Record<string, unknown> = {}) {
   try {
     await connectDB();
-    const reservations = await Reservation.find().sort({
+    const reservations = await Reservation.find(query).sort({
       date: -1,
       startTime: -1,
     });

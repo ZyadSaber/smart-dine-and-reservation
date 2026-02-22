@@ -16,12 +16,14 @@ import { Button } from "@/components/ui/button";
 import { useEffect, useTransition } from "react";
 import { useTranslations, useLocale } from "next-intl";
 import { createOrUpdateTableOrder, getRunningOrders } from "@/services/order";
+import { completeTableReservation, cancelTableReservation } from "@/services/reservation";
 import { toast } from "sonner";
 import { getLocalizedValue } from "@/lib/localize";
 import AddItem from "./AddItem";
 import { POSFormData, ActiveMenuItem, POSCartItem } from "@/types/pos";
 import { Input } from "@/components/ui/input";
 import isArrayHasData from "@/lib/isArrayHasData";
+import AutoRefresh from "@/components/shared/AutoRefresh";
 
 interface TableOrderProps {
     table: TableData;
@@ -32,6 +34,7 @@ const TableOrder = ({ table, children }: TableOrderProps) => {
     const locale = useLocale();
     const t = useTranslations("Common");
     const tPos = useTranslations("POS");
+    const tReservation = useTranslations("Reservation");
     const { visible, handleStateChange, handleClose } = useVisibility();
     const [isPending, startTransition] = useTransition();
 
@@ -89,9 +92,65 @@ const TableOrder = ({ table, children }: TableOrderProps) => {
             handleClose();
             resetForm();
             if (res.success === true) {
-                toast.success("Order created successfully")
+                toast.success(tPos("orderCreatedSuccessfully"))
             } else {
-                toast.error(res.error || "Failed to save order")
+                toast.error(res.error || tPos("orderCreatedError"))
+            }
+        });
+    }
+
+    const handleCompleteReservation = () => {
+        startTransition(async () => {
+            if (!table.reservationId?._id) {
+                toast.error(tReservation("reservationCompleteError"));
+                return
+            }
+
+            let updatedItems = formData.items;
+            if (table.reservationId?.menuItems && table.reservationId.menuItems.length > 0) {
+                updatedItems = table.reservationId.menuItems.map((m) => {
+                    const idObj = typeof m.itemId === 'string' ? null : m.itemId;
+                    return {
+                        itemId: idObj?._id || m.itemId as string,
+                        name: idObj?.name || { en: "Unknown", ar: "غير معروف" },
+                        quantity: m.quantity,
+                        price: idObj?.price || 0,
+                        totalPrice: (idObj?.price || 0) * m.quantity
+                    };
+                });
+
+                const finalTotal = Math.max(0, updatedItems.reduce((sum: number, i: POSCartItem) => sum + i.totalPrice, 0) - (formData.discount || 0));
+
+                const orderData = {
+                    ...formData,
+                    tableId: table._id,
+                    items: updatedItems,
+                    totalAmount: finalTotal
+                };
+                await createOrUpdateTableOrder(orderData);
+            }
+
+            const res = await completeTableReservation(table._id!, table.reservationId._id);
+            if (res.success) {
+                toast.success(tReservation("reservationCompleteSuccess"));
+                handleClose();
+                resetForm();
+            } else {
+                toast.error(res.error || tReservation("reservationCompleteError"));
+            }
+        });
+    }
+
+    const handleCancelReservation = () => {
+        startTransition(async () => {
+            if (!table.reservationId?._id) return;
+            const res = await cancelTableReservation(table._id!, table.reservationId._id);
+            if (res.success) {
+                toast.success(tReservation("reservationCancelled"));
+                handleClose();
+                resetForm();
+            } else {
+                toast.error(res.error || tReservation("reservationCancelledError"));
             }
         });
     }
@@ -112,7 +171,8 @@ const TableOrder = ({ table, children }: TableOrderProps) => {
                     {children}
                 </Card>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[500px]">
+            <DialogContent className="sm:max-w-125">
+                <AutoRefresh />
                 <DialogHeader>
                     <DialogTitle>
                         <div className="w-full flex justify-between items-center pr-5">
@@ -126,7 +186,7 @@ const TableOrder = ({ table, children }: TableOrderProps) => {
                 </DialogHeader>
 
                 <div className="flex gap-4 flex-wrap py-4">
-                    <div className="w-full max-h-[300px] overflow-y-auto pr-2 flex flex-col gap-2 custom-scrollbar">
+                    <div className="w-full max-h-75 overflow-y-auto pr-2 flex flex-col gap-2 custom-scrollbar">
                         {hasItmes ? (
                             formData.items.map((item: POSCartItem) => (
                                 <div
@@ -177,10 +237,23 @@ const TableOrder = ({ table, children }: TableOrderProps) => {
                 </div>
 
                 <DialogFooter className="gap-2">
-                    <Button onClick={handleSubmit} isLoading={isPending}>
-                        {t("save")}
-                    </Button>
-                    <Button onClick={handleClose} isLoading={isPending} variant="outline">{t("cancel")}</Button>
+                    {table.status === 'Reserved' && table.reservationId ? (
+                        <div className="flex w-full gap-2">
+                            <Button onClick={handleCompleteReservation} isLoading={isPending} className="flex-1 bg-emerald-600 hover:bg-emerald-700">
+                                {tReservation("completeReservation")}
+                            </Button>
+                            <Button onClick={handleCancelReservation} isLoading={isPending} variant="destructive" className="flex-1">
+                                {tReservation("cancelReservation")}
+                            </Button>
+                        </div>
+                    ) : (
+                        <>
+                            <Button onClick={handleSubmit} isLoading={isPending}>
+                                {t("save")}
+                            </Button>
+                            <Button onClick={handleClose} isLoading={isPending} variant="outline">{t("cancel")}</Button>
+                        </>
+                    )}
                 </DialogFooter>
             </DialogContent>
         </Dialog>

@@ -13,6 +13,7 @@ import { useVisibility } from "@/hooks"
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner"
 import { useTransition } from "react";
+import { useTranslations } from "next-intl";
 
 interface DeleteDialogProps {
     id: string;
@@ -22,14 +23,15 @@ interface DeleteDialogProps {
 const DeleteDialog = ({ id, deleteAction }: DeleteDialogProps) => {
     const { visible, handleClose, handleStateChange } = useVisibility()
     const [isDeleting, startDeleteTransition] = useTransition();
+    const tCommon = useTranslations("Common");
 
     const handleDeleteInvoice = () => {
         startDeleteTransition(async () => {
             const result = await deleteAction(id);
             if (result.error) {
-                toast.error(result.error);
+                toast.error(tCommon("deleteError"));
             } else {
-                toast.success("Purchase order deleted");
+                toast.success(tCommon("deletedSuccessfully"));
                 handleClose();
             }
         });
@@ -44,10 +46,9 @@ const DeleteDialog = ({ id, deleteAction }: DeleteDialogProps) => {
             </DialogTrigger>
             <DialogContent>
                 <DialogHeader>
-                    <DialogTitle>Delete Record</DialogTitle>
+                    <DialogTitle>{tCommon("deleteTitle")}</DialogTitle>
                     <DialogDescription>
-                        Are you sure you want to delete this record?
-                        This action cannot be undone.
+                        {tCommon("deleteDescription")}
                     </DialogDescription>
                 </DialogHeader>
                 <DialogFooter>
@@ -56,14 +57,14 @@ const DeleteDialog = ({ id, deleteAction }: DeleteDialogProps) => {
                         onClick={handleClose}
                         disabled={isDeleting}
                     >
-                        Cancel
+                        {tCommon("cancel")}
                     </Button>
                     <Button
                         variant="destructive"
                         onClick={handleDeleteInvoice}
                         disabled={isDeleting}
                     >
-                        {isDeleting ? "Deleting..." : "Delete"}
+                        {isDeleting ? "Deleting..." : tCommon("deleteAction")}
                     </Button>
                 </DialogFooter>
             </DialogContent>

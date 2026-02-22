@@ -13,17 +13,27 @@ import isArrayHasData from "@/lib/isArrayHasData";
 import AddOrEditReservation from "./AddOrEditReservation";
 import DeleteDialog from "@/components/shared/delete-dialog";
 import { deleteReservation } from "@/services/reservation";
-import { format } from "date-fns";
+import { formatTableDate } from "@/lib/formatTableDate";
 import { ReservationData } from "@/types/reservation";
+import { useTranslations } from "next-intl";
+
 interface TableViewProps {
     reservations: ReservationData[];
 }
 
 const TableView = ({ reservations }: TableViewProps) => {
+    const tReservation = useTranslations("Reservation");
+    const tCommon = useTranslations("Common");
 
-    const formatDate = (date: Date | string) => {
-        if (!date) return "N/A";
-        return format(new Date(date), "MMM dd, yyyy");
+
+
+    const getStatusVariant = (status: string) => {
+        switch (status) {
+            case 'Confirmed': return 'default';
+            case 'Completed': return 'secondary';
+            case 'Cancelled': return 'destructive';
+            default: return 'outline';
+        }
     };
 
     return (
@@ -31,19 +41,20 @@ const TableView = ({ reservations }: TableViewProps) => {
             <Table>
                 <TableHeader>
                     <TableRow>
-                        <TableHead>Customer</TableHead>
-                        <TableHead>Phone</TableHead>
-                        <TableHead>Party</TableHead>
-                        <TableHead>Time Range</TableHead>
-                        <TableHead>Status</TableHead>
-                        <TableHead>Source</TableHead>
-                        <TableHead className="text-right">Actions</TableHead>
+                        <TableHead className="text-start" >{tReservation("customerName")}</TableHead>
+                        <TableHead className="text-start" >{tReservation("customerPhone")}</TableHead>
+                        <TableHead className="text-start" >{tReservation("partySize")}</TableHead>
+                        <TableHead className="text-start" >{tReservation("date")}</TableHead>
+                        <TableHead className="text-start" >{tReservation("timeRange")}</TableHead>
+                        <TableHead className="text-start" >{tCommon("status")}</TableHead>
+                        <TableHead className="text-start" >{tReservation("source")}</TableHead>
+                        <TableHead className="text-end">{tCommon("action")}</TableHead>
                     </TableRow>
                 </TableHeader>
                 <TableBody>
                     {!isArrayHasData(reservations) ? (
                         <TableRow>
-                            <TableCell colSpan={9} className="text-center py-10 text-muted-foreground">No reservations found.</TableCell>
+                            <TableCell colSpan={9} className="text-center py-10 text-muted-foreground">{tCommon("noData")}</TableCell>
                         </TableRow>
                     ) : (
                         reservations.map((res) => (
@@ -54,7 +65,7 @@ const TableView = ({ reservations }: TableViewProps) => {
                                 <TableCell>{res.customerPhone}</TableCell>
                                 <TableCell>{res.partySize}</TableCell>
                                 <TableCell>
-                                    <div className="font-medium">{formatDate(res.date)}</div>
+                                    <div className="font-medium">{formatTableDate(res.date)}</div>
                                 </TableCell>
                                 <TableCell className="text-xs">
                                     <div className="flex items-center gap-1">
@@ -66,9 +77,9 @@ const TableView = ({ reservations }: TableViewProps) => {
 
                                 <TableCell>
                                     <Badge
-                                        variant={res.status === 'Confirmed' ? 'default' : res.status === 'Completed' ? 'secondary' : res.status === 'Cancelled' ? 'destructive' : 'outline'}
+                                        variant={getStatusVariant(res.status)}
                                     >
-                                        {res.status}
+                                        {tReservation(res.status as 'Confirmed' | 'Completed' | 'Cancelled' | 'Pending')}
                                     </Badge>
                                 </TableCell>
                                 <TableCell className="text-xs text-muted-foreground">

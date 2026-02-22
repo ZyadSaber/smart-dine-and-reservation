@@ -25,7 +25,13 @@
     "back": "Back",
     "action": "Action",
     "status": "Status",
-    "currency": "EGP"
+    "currency": "EGP",
+    "noData": "No Data",
+    "deletedSuccessfully": "Deleted successfully",
+    "deleteError": "Failed to delete",
+    "deleteTitle": "Delete Record?",
+    "deleteDescription": "Are you sure you want to delete this record?",
+    "deleteAction": "Delete"
   },
   "POS": {
     "tables": "Tables",
@@ -48,7 +54,11 @@
     "editTable": "Edit Table",
     "tableNumber": "Table Number",
     "capacity": "Capacity",
-    "discount": "Discount"
+    "discount": "Discount",
+    "tableClosed": "Table Closed",
+    "failedToCloseTable": "Failed to close table",
+    "orderCreatedSuccessfully": "Order Created Successfully",
+    "orderCreatedError": "Failed to create order"
   },
   "Shift": {
     "title": "Shift Management",
@@ -103,6 +113,8 @@
   },
   "Reservation": {
     "title": "Make a Reservation",
+    "reservations": "Reservations",
+    "subtitle": "Manage Booking.",
     "customerName": "Your Name",
     "customerPhone": "Phone Number",
     "partySize": "Number of Guests",
@@ -113,7 +125,28 @@
     "barcodeInstruction": "Please show this QR code upon arrival.",
     "backToHome": "Back to Home",
     "confirm": "Confirm Reservation",
-    "guests": "Guests"
+    "guests": "Guests",
+    "source": "Source",
+    "timeRange": "Time Range",
+    "Confirmed": "Confirmed",
+    "Completed": "Completed",
+    "Cancelled": "Cancelled",
+    "Pending": "Pending",
+    "add": "Add Reservation",
+    "startTime": "Start Time",
+    "endTime": "End Time",
+    "walkIn": "Walk-In",
+    "callCenter": "Call Center",
+    "website": "Website",
+    "update": "Update Reservation",
+    "currentConfirmed": "Current Confirmed Reservations",
+    "chooseTableFor": "Choose Table for",
+    "select": "Select",
+    "tableReservedSuccess": "Table {tableNumber} has been reserved successfully!",
+    "reservationCancelled": "Reservation Cancelled",
+    "reservationCancelledError": "Reservation Cancelled Error",
+    "reservationCompleteError": "Reservation Complete Error",
+    "reservationCompleteSuccess": "Reservation Complete Success"
   },
   "About": {
     "title": "Our Story",

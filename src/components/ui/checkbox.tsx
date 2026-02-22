@@ -32,13 +32,15 @@ function Checkbox({
 function LabeledCheckBox({
   name,
   label,
+  hidePlaceHolder,
   ...props
 }: React.ComponentProps<typeof CheckboxPrimitive.Root> & {
   label?: string;
+  hidePlaceHolder?: boolean
 }) {
   return (
     <div className="space-y-2 px-1">
-      <div className="text-sm font-medium invisible">Placeholder</div>
+      {!hidePlaceHolder && <div className="text-sm font-medium invisible">Placeholder</div>}
       <div className="h-9 flex items-center gap-2">
         <Checkbox
           {...props}

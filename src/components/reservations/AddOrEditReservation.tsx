@@ -20,6 +20,7 @@ import { createReservationAdmin, updateReservation } from "@/services/reservatio
 import { useRouter } from "next/navigation";
 import { ReservationData } from "@/types/reservation";
 import getCurrentDate from "@/lib/getCurrentDate";
+import { useTranslations } from "next-intl";
 
 interface AddOrEditReservationProps {
     currentReservation?: ReservationData;
@@ -30,19 +31,22 @@ const AddOrEditReservation = ({ currentReservation }: AddOrEditReservationProps)
     const [isPending, startTransition] = useTransition();
     const router = useRouter();
 
+    const tReservation = useTranslations("Reservation");
+    const tCommon = useTranslations("Common");
 
     const editingReservation = !!currentReservation;
 
     const { formData, handleChange, handleFieldChange, resetForm, validate, errors } = useFormManager({
         initialData: {
-            customerName: currentReservation?.customerName || "",
-            customerPhone: currentReservation?.customerPhone || "",
-            partySize: currentReservation?.partySize || 1,
-            date: currentReservation?.date ? new Date(currentReservation.date).toISOString().split('T')[0] : getCurrentDate(),
-            startTime: currentReservation?.startTime || "12:00",
-            endTime: currentReservation?.endTime || "14:00",
-            status: currentReservation?.status || "Pending",
-            reservedBy: currentReservation?.reservedBy || "WalkIn",
+            customerName: "",
+            customerPhone: "",
+            partySize: 1,
+            date: getCurrentDate(),
+            startTime: "12:00",
+            endTime: "14:00",
+            status: "Pending",
+            reservedBy: "WalkIn",
+            ...currentReservation,
         },
         schema: !!editingReservation ? reservationSchema : createReservationSchema
     })
@@ -64,7 +68,7 @@ const AddOrEditReservation = ({ currentReservation }: AddOrEditReservationProps)
             if (result.error) {
                 toast.error(result.error);
             } else {
-                toast.success(editingReservation ? "Reservation updated successfully" : "Reservation created successfully");
+                toast.success(tReservation("success"));
                 router.refresh();
                 handleClose();
                 resetForm();
@@ -81,24 +85,24 @@ const AddOrEditReservation = ({ currentReservation }: AddOrEditReservationProps)
                     </Button>
                 ) : (
                     <Button className="gap-2 m-2">
-                        <Plus className="w-4 h-4" /> Add Reservation
+                        <Plus className="w-4 h-4" /> {tReservation("add")}
                     </Button>
                 )}
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[500px]">
+            <DialogContent className="sm:max-w-125">
                 <DialogHeader>
-                    <DialogTitle>{editingReservation ? "Edit Reservation" : "Add New Reservation"}</DialogTitle>
+                    <DialogTitle>{editingReservation ? tReservation("edit") : tReservation("add")}</DialogTitle>
                 </DialogHeader>
 
                 <div className="grid gap-4 py-4">
                     <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2">
-                            <label className="text-sm font-medium">Customer Name</label>
+                            <label className="text-sm font-medium">{tReservation("customerName")}</label>
                             <div className="relative">
                                 <User className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
                                 <Input
                                     className="pl-9"
-                                    placeholder="Name"
+                                    placeholder={tReservation("customerName")}
                                     value={formData.customerName}
                                     onChange={handleChange}
                                     name="customerName"
@@ -108,12 +112,12 @@ const AddOrEditReservation = ({ currentReservation }: AddOrEditReservationProps)
                             </div>
                         </div>
                         <div className="space-y-2">
-                            <label className="text-sm font-medium">Phone</label>
+                            <label className="text-sm font-medium">{tReservation("customerPhone")}</label>
                             <div className="relative">
                                 <Phone className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
                                 <Input
                                     className="pl-9"
-                                    placeholder="Phone"
+                                    placeholder={tReservation("customerPhone")}
                                     value={formData.customerPhone}
                                     onChange={handleChange}
                                     name="customerPhone"
@@ -126,7 +130,7 @@ const AddOrEditReservation = ({ currentReservation }: AddOrEditReservationProps)
 
                     <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2">
-                            <label className="text-sm font-medium">Reservation Date</label>
+                            <label className="text-sm font-medium">{tReservation("date")}</label>
                             <div className="relative">
                                 <Calendar className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
                                 <Input
@@ -141,13 +145,13 @@ const AddOrEditReservation = ({ currentReservation }: AddOrEditReservationProps)
                             </div>
                         </div>
                         <div className="space-y-2">
-                            <label className="text-sm font-medium">Party Size</label>
+                            <label className="text-sm font-medium">{tReservation("partySize")}</label>
                             <div className="relative">
                                 <Users className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
                                 <Input
                                     className="pl-9"
                                     type="number"
-                                    placeholder="Size"
+                                    placeholder={tReservation("partySize")}
                                     value={formData.partySize}
                                     onChange={handleChange}
                                     name="partySize"
@@ -161,7 +165,7 @@ const AddOrEditReservation = ({ currentReservation }: AddOrEditReservationProps)
 
                     <div className="grid grid-cols-2 gap-4">
                         <div className="space-y-2">
-                            <label className="text-sm font-medium">Start Time</label>
+                            <label className="text-sm font-medium">{tReservation("startTime")}</label>
                             <div className="relative">
                                 <Clock className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
                                 <Input
@@ -176,7 +180,7 @@ const AddOrEditReservation = ({ currentReservation }: AddOrEditReservationProps)
                             </div>
                         </div>
                         <div className="space-y-2">
-                            <label className="text-sm font-medium">End Time</label>
+                            <label className="text-sm font-medium">{tReservation("endTime")}</label>
                             <div className="relative">
                                 <Clock className="absolute left-3 top-2.5 h-4 w-4 text-muted-foreground" />
                                 <Input
@@ -196,7 +200,7 @@ const AddOrEditReservation = ({ currentReservation }: AddOrEditReservationProps)
 
                     <div className="grid grid-cols-2 gap-4">
                         <SelectField
-                            label="Status"
+                            label={tCommon("status")}
                             name="status"
                             value={formData.status as string}
                             onValueChange={(value) => handleFieldChange({ name: "status", value })}
@@ -209,15 +213,14 @@ const AddOrEditReservation = ({ currentReservation }: AddOrEditReservationProps)
                             error={errors.status}
                         />
                         <SelectField
-                            label="Source"
+                            label={tReservation("source")}
                             name="reservedBy"
                             value={formData.reservedBy as string}
                             disabled={editingReservation}
                             onValueChange={(value) => handleFieldChange({ name: "reservedBy", value })}
                             options={[
-                                { key: "WalkIn", label: "Walk-In" },
-                                { key: "CallCenter", label: "Call Center" },
-                                { key: "Website", label: "Website" },
+                                { key: "WalkIn", label: tReservation("walkIn") },
+                                { key: "CallCenter", label: tReservation("callCenter") }
                             ]}
                             error={errors.reservedBy}
                         />
@@ -226,7 +229,7 @@ const AddOrEditReservation = ({ currentReservation }: AddOrEditReservationProps)
 
                 <DialogFooter>
                     <Button onClick={handleSubmit} className="w-full" isLoading={isPending}>
-                        {editingReservation ? "Update Reservation" : "Create Reservation"}
+                        {editingReservation ? tReservation("update") : tReservation("add")}
                     </Button>
                 </DialogFooter>
             </DialogContent>
